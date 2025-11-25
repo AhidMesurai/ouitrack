@@ -8,7 +8,10 @@ export async function GET(request: NextRequest) {
   const code = requestUrl.searchParams.get('code')
   const error_description = requestUrl.searchParams.get('error_description')
   const error = requestUrl.searchParams.get('error')
-  const origin = requestUrl.origin
+  
+  // Use the request origin (which will be the production domain) or fallback to NEXTAUTH_URL
+  // This ensures we always redirect to the correct domain, not localhost
+  const origin = process.env.NEXTAUTH_URL || requestUrl.origin
   const next = requestUrl.searchParams.get('next') ?? '/dashboard'
 
   // Check for OAuth errors from Google
