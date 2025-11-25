@@ -290,7 +290,7 @@ export function SolutionPreview() {
                 whileInView={{ opacity: 1, scale: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6, type: 'spring' }}
-                className="w-full sm:w-11/12 md:w-10/12 lg:flex-1 lg:max-w-sm"
+                className="w-full sm:w-11/12 md:w-10/12 lg:flex-1 lg:max-w-lg"
               >
                 <div className="relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
@@ -557,7 +557,7 @@ export function SolutionPreview() {
                 whileInView={{ opacity: 1, scale: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6, type: 'spring' }}
-                className="w-full sm:w-11/12 md:w-10/12 lg:w-5/12 order-1 lg:order-2"
+                className="w-full sm:w-11/12 md:w-10/12 lg:w-7/12 order-1 lg:order-2"
               >
                 <div className="relative group overflow-visible">
                   {/* Glow effect */}
@@ -969,7 +969,7 @@ export function SolutionPreview() {
                 whileInView={{ opacity: 1, scale: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.6, type: 'spring' }}
-                className="w-full sm:w-11/12 md:w-10/12 lg:w-5/12"
+                className="w-full sm:w-11/12 md:w-10/12 lg:w-7/12"
               >
                 <div className="relative group">
                   {/* Step 3 Badge - Outside the card to avoid clipping */}
