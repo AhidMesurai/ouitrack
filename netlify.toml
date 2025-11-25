@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Use Netlify's Next.js runtime plugin for optimal performance
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+

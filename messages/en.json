@@ -1,0 +1,185 @@
+{
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "dashboard": "Dashboard",
+    "docs": "Docs",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "login": "Login"
+  },
+  "hero": {
+    "title": "Eliminate Confusion",
+    "subtitle": "Build the Dashboard You Actually Need",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "logo": {
+    "text": "Oui Track"
+  },
+  "problemValidation": {
+    "title": "Sound Familiar?",
+    "point1": {
+      "title": "Jumping between 5 different analytics tools daily",
+      "description": "Switching tabs, logging in and out, trying to piece together insights from multiple platforms."
+    },
+    "point2": {
+      "title": "Staring at dashboards wondering what it all means",
+      "description": "Data overload without clear insights. Numbers everywhere but no understanding of what matters."
+    },
+    "point3": {
+      "title": "Spending hours creating reports manually",
+      "description": "Copy-pasting data, formatting spreadsheets, trying to make it look professional for clients."
+    },
+    "point4": {
+      "title": "Not knowing which metrics actually matter",
+      "description": "Drowning in data but missing the key insights that drive real business decisions."
+    },
+    "yesThatsMe": "Yes, that's me!"
+  },
+  "solutionPreview": {
+    "title": "How it works",
+    "step1": {
+      "title": "Connect",
+      "shortDesc": "Link all your data sources",
+      "description": "Link all your data sources in one place - GA, Facebook, Google Ads, and more.",
+      "connectDataSource": "Connect Data Source",
+      "selectConnector": "Select connector",
+      "chooseDataSource": "Choose a data source:",
+      "readyToConnect": "Ready to connect",
+      "emailMarketing": "Email Marketing",
+      "dataSourceConnections": "20+ Data Source Connections",
+      "dataSourceDescription": "Connect all your analytics tools in one unified dashboard.",
+      "realTimeUpdates": "Real-Time Updates",
+      "realTimeDescription": "Your data syncs automatically, always up-to-date."
+    },
+    "step2": {
+      "title": "Build",
+      "shortDesc": "Drag & drop components",
+      "description": "Drag and drop components to create the perfect dashboard for your needs.",
+      "buildDashboard": "Build Dashboard",
+      "dragDropComponents": "Drag & drop components",
+      "availableComponents": "Available Components",
+      "prebuiltReports": "Prebuilt Reports",
+      "ecommerce": "E-commerce",
+      "marketing": "Marketing",
+      "engagement": "Engagement",
+      "buildingDashboard": "Building Dashboard",
+      "sessionsOverTime": "Sessions Over Time",
+      "conversionRate": "Conversion Rate",
+      "trafficSources": "Traffic Sources",
+      "trafficSourceLabels": {
+        "organic": "Organic",
+        "direct": "Direct",
+        "social": "Social",
+        "email": "Email"
+      },
+      "campaignPerformance": "Campaign Performance",
+      "summerSale": "Summer Sale",
+      "productLaunch": "Product Launch",
+      "newsletter": "Newsletter",
+      "adding": "Adding...",
+      "dropping": "Dropping...",
+      "preBuiltComponents": "Pre-Built Components",
+      "preBuiltDescription": "Choose from a library of ready-made widgets and charts.",
+      "dragDropBuilder": "Drag & Drop Builder",
+      "dragDropDescription": "Create custom dashboards with an intuitive, no-code interface.",
+      "smartTemplates": "Smart Templates",
+      "smartTemplatesDescription": "Start with professionally designed dashboard templates."
+    },
+    "step3": {
+      "title": "Understand",
+      "shortDesc": "Get clear insights",
+      "description": "Get clear, actionable insights that actually make sense and drive decisions.",
+      "understandInsights": "Understand Insights",
+      "askAI": "Ask AI about your data",
+      "noCodeRequired": "No Code Required",
+      "noCodeDescription": "Build powerful dashboards without writing a single line of code.",
+      "aiPoweredInsights": "AI-Powered Insights",
+      "aiPoweredDescription": "Ask questions about your data and get instant, intelligent answers from our AI assistant.",
+      "chatMessages": {
+        "user1": "Why did revenue drop last week?",
+        "ai1": "Revenue dropped 12% due to decreased traffic from social media campaigns. Your email campaigns performed 23% better.",
+        "user2": "What's our best performing page?",
+        "ai2": "/products has 45K sessions with 3.8% conversion. It's your top page. Consider promoting it more.",
+        "user3": "How can I improve conversion?",
+        "ai3": "Focus on mobile optimization. Mobile users have 2.1% conversion vs 4.5% on desktop. Also, reduce checkout steps."
+      }
+    },
+    "step": "Step"
+  },
+  "features": {
+    "title": "Everything You Need",
+    "feature1": {
+      "title": "20+ Data Source Connections",
+      "description": "Connect all your analytics tools in one unified dashboard."
+    },
+    "feature2": {
+      "title": "Pre-Built Components",
+      "description": "Choose from a library of ready-made widgets and charts."
+    },
+    "feature3": {
+      "title": "Drag & Drop Builder",
+      "description": "Create custom dashboards with an intuitive, no-code interface."
+    },
+    "feature4": {
+      "title": "Smart Templates",
+      "description": "Start with professionally designed dashboard templates."
+    },
+    "feature5": {
+      "title": "Real-Time Updates",
+      "description": "Your data syncs automatically, always up-to-date."
+    },
+    "feature6": {
+      "title": "No Code Required",
+      "description": "Build powerful dashboards without writing a single line of code."
+    }
+  },
+  "pricing": {
+    "title": "Simple Plans",
+    "trial": "14-day free trial for all plans",
+    "mostPopular": "Most Popular",
+    "starter": {
+      "name": "Starter",
+      "price": "$29",
+      "period": "/month",
+      "description": "Perfect for small businesses",
+      "features": [
+        "3 data sources",
+        "10 components",
+        "Basic templates",
+        "Email support"
+      ]
+    },
+    "professional": {
+      "name": "Professional",
+      "price": "$79",
+      "period": "/month",
+      "description": "For growing teams",
+      "features": [
+        "10 data sources",
+        "Unlimited components",
+        "Advanced features",
+        "Priority support"
+      ]
+    },
+    "agency": {
+      "name": "Agency",
+      "price": "$199",
+      "period": "/month",
+      "description": "For agencies",
+      "features": [
+        "Unlimited data sources",
+        "Unlimited components",
+        "White-label",
+        "Priority support"
+      ]
+    },
+    "cta": "Try It Free"
+  },
+  "interactiveDemo": {
+    "title": "See It In Action",
+    "cta": "Try It Free"
+  }
+}
+

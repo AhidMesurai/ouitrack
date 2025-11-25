@@ -1,0 +1,185 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "dashboard": "Tableau de bord",
+    "docs": "Documentation",
+    "pricing": "Tarifs",
+    "resources": "Ressources",
+    "login": "Connexion"
+  },
+  "hero": {
+    "title": "Éliminez la Confusion",
+    "subtitle": "Construisez Votre Dashboard Idéal",
+    "getStarted": "Commencer",
+    "learnMore": "En savoir plus"
+  },
+  "logo": {
+    "text": "Oui Track"
+  },
+  "problemValidation": {
+    "title": "Ça Vous Dit Quelque Chose?",
+    "point1": {
+      "title": "Naviguer entre 5 outils d'analyse différents chaque jour",
+      "description": "Changer d'onglets, se connecter et déconnecter, essayer de rassembler les insights de plusieurs plateformes."
+    },
+    "point2": {
+      "title": "Regarder des tableaux de bord sans comprendre",
+      "description": "Surcharge de données sans insights clairs. Des chiffres partout mais aucune compréhension de ce qui compte."
+    },
+    "point3": {
+      "title": "Passer des heures à créer des rapports manuellement",
+      "description": "Copier-coller des données, formater des feuilles de calcul, essayer de rendre ça professionnel pour les clients."
+    },
+    "point4": {
+      "title": "Ne pas savoir quelles métriques comptent vraiment",
+      "description": "Noyer dans les données mais manquer les insights clés qui guident les vraies décisions business."
+    },
+    "yesThatsMe": "Oui, c'est moi !"
+  },
+  "solutionPreview": {
+    "title": "Comment ça marche",
+    "step1": {
+      "title": "Connecter",
+      "shortDesc": "Liez toutes vos sources de données",
+      "description": "Liez toutes vos sources de données en un seul endroit - GA, Facebook, Google Ads, et plus.",
+      "connectDataSource": "Connecter une Source de Données",
+      "selectConnector": "Sélectionner un connecteur",
+      "chooseDataSource": "Choisir une source de données :",
+      "readyToConnect": "Prêt à connecter",
+      "emailMarketing": "Marketing par Email",
+      "dataSourceConnections": "20+ Connexions de Sources de Données",
+      "dataSourceDescription": "Connectez tous vos outils d'analyse dans un tableau de bord unifié.",
+      "realTimeUpdates": "Mises à Jour en Temps Réel",
+      "realTimeDescription": "Vos données se synchronisent automatiquement, toujours à jour."
+    },
+    "step2": {
+      "title": "Construire",
+      "shortDesc": "Glissez-déposez des composants",
+      "description": "Glissez-déposez des composants pour créer le tableau de bord parfait pour vos besoins.",
+      "buildDashboard": "Construire un Tableau de Bord",
+      "dragDropComponents": "Glisser-déposer des composants",
+      "availableComponents": "Composants Disponibles",
+      "prebuiltReports": "Rapports Pré-Construits",
+      "ecommerce": "E-commerce",
+      "marketing": "Marketing",
+      "engagement": "Engagement",
+      "buildingDashboard": "Construction du Tableau de Bord",
+      "sessionsOverTime": "Sessions dans le Temps",
+      "conversionRate": "Taux de Conversion",
+      "trafficSources": "Sources de Trafic",
+      "trafficSourceLabels": {
+        "organic": "Organique",
+        "direct": "Direct",
+        "social": "Social",
+        "email": "Email"
+      },
+      "campaignPerformance": "Performance des Campagnes",
+      "summerSale": "Soldes d'Été",
+      "productLaunch": "Lancement de Produit",
+      "newsletter": "Newsletter",
+      "adding": "Ajout...",
+      "dropping": "Dépose...",
+      "preBuiltComponents": "Composants Pré-Construits",
+      "preBuiltDescription": "Choisissez parmi une bibliothèque de widgets et graphiques prêts à l'emploi.",
+      "dragDropBuilder": "Constructeur Glisser-Déposer",
+      "dragDropDescription": "Créez des tableaux de bord personnalisés avec une interface intuitive sans code.",
+      "smartTemplates": "Modèles Intelligents",
+      "smartTemplatesDescription": "Commencez avec des modèles de tableaux de bord conçus professionnellement."
+    },
+    "step3": {
+      "title": "Comprendre",
+      "shortDesc": "Obtenez des insights clairs",
+      "description": "Obtenez des insights clairs et actionnables qui ont vraiment du sens et guident les décisions.",
+      "understandInsights": "Comprendre les Insights",
+      "askAI": "Posez des questions à l'IA sur vos données",
+      "noCodeRequired": "Aucun Code Requis",
+      "noCodeDescription": "Créez des tableaux de bord puissants sans écrire une seule ligne de code.",
+      "aiPoweredInsights": "Insights Alimentés par l'IA",
+      "aiPoweredDescription": "Posez des questions sur vos données et obtenez des réponses instantanées et intelligentes de notre assistant IA.",
+      "chatMessages": {
+        "user1": "Pourquoi les revenus ont-ils chuté la semaine dernière ?",
+        "ai1": "Les revenus ont chuté de 12% en raison d'une diminution du trafic des campagnes sur les réseaux sociaux. Vos campagnes email ont performé 23% mieux.",
+        "user2": "Quelle est notre page la plus performante ?",
+        "ai2": "/products a 45K sessions avec 3,8% de conversion. C'est votre page principale. Envisagez de la promouvoir davantage.",
+        "user3": "Comment puis-je améliorer la conversion ?",
+        "ai3": "Concentrez-vous sur l'optimisation mobile. Les utilisateurs mobiles ont 2,1% de conversion contre 4,5% sur ordinateur. Réduisez également les étapes de paiement."
+      }
+    },
+    "step": "Étape"
+  },
+  "features": {
+    "title": "Tout Ce Dont Vous Avez Besoin",
+    "feature1": {
+      "title": "20+ Connexions de Sources de Données",
+      "description": "Connectez tous vos outils d'analyse dans un tableau de bord unifié."
+    },
+    "feature2": {
+      "title": "Composants Pré-Construits",
+      "description": "Choisissez parmi une bibliothèque de widgets et graphiques prêts à l'emploi."
+    },
+    "feature3": {
+      "title": "Constructeur Glisser-Déposer",
+      "description": "Créez des tableaux de bord personnalisés avec une interface intuitive sans code."
+    },
+    "feature4": {
+      "title": "Modèles Intelligents",
+      "description": "Commencez avec des modèles de tableaux de bord conçus professionnellement."
+    },
+    "feature5": {
+      "title": "Mises à Jour en Temps Réel",
+      "description": "Vos données se synchronisent automatiquement, toujours à jour."
+    },
+    "feature6": {
+      "title": "Aucun Code Requis",
+      "description": "Créez des tableaux de bord puissants sans écrire une seule ligne de code."
+    }
+  },
+  "pricing": {
+    "title": "Plans Simples",
+    "trial": "Essai gratuit de 14 jours pour tous les plans",
+    "mostPopular": "Le Plus Populaire",
+    "starter": {
+      "name": "Starter",
+      "price": "29€",
+      "period": "/mois",
+      "description": "Parfait pour les petites entreprises",
+      "features": [
+        "3 sources de données",
+        "10 composants",
+        "Modèles de base",
+        "Support par email"
+      ]
+    },
+    "professional": {
+      "name": "Professionnel",
+      "price": "79€",
+      "period": "/mois",
+      "description": "Pour les équipes en croissance",
+      "features": [
+        "10 sources de données",
+        "Composants illimités",
+        "Fonctionnalités avancées",
+        "Support prioritaire"
+      ]
+    },
+    "agency": {
+      "name": "Agence",
+      "price": "199€",
+      "period": "/mois",
+      "description": "Pour les agences",
+      "features": [
+        "Sources de données illimitées",
+        "Composants illimités",
+        "White-label",
+        "Support prioritaire"
+      ]
+    },
+    "cta": "Essayer Gratuitement"
+  },
+  "interactiveDemo": {
+    "title": "Voir En Action",
+    "cta": "Essayer Gratuitement"
+  }
+}
+
