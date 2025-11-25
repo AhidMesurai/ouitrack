@@ -302,9 +302,9 @@ export function SolutionPreview() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                        className="px-2.5 py-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full shadow-md"
+                        className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full shadow-md"
                       >
-                        <span className="text-[10px] font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        <span className="text-sm font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
                           {t.solutionPreview.step} 1
                         </span>
                       </motion.div>
@@ -455,24 +455,24 @@ export function SolutionPreview() {
               >
                 <h3 className="font-bold text-white mb-3" style={{ 
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                  fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                   fontWeight: 700
                 }}>
                   {t.solutionPreview.step1.dataSourceConnections}
                 </h3>
-                <p className="text-xs text-gray-300 leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+                <p className="text-sm text-gray-300 leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {t.solutionPreview.step1.dataSourceDescription}
                 </p>
                 
                 <div>
                   <h3 className="font-bold text-white mb-1" style={{ 
                     fontFamily: "'Inter', sans-serif",
-                    fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                    fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                     fontWeight: 700
                   }}>
                     {t.solutionPreview.step1.realTimeUpdates}
                   </h3>
-                  <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {t.solutionPreview.step1.realTimeDescription}
                   </p>
                 </div>
@@ -513,12 +513,12 @@ export function SolutionPreview() {
                   <div>
                     <h3 className="font-bold text-white mb-1" style={{ 
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                       fontWeight: 700
                     }}>
                       {t.solutionPreview.step2.preBuiltComponents}
                     </h3>
-                    <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.solutionPreview.step2.preBuiltDescription}
                     </p>
                   </div>
@@ -526,12 +526,12 @@ export function SolutionPreview() {
                   <div>
                     <h3 className="font-bold text-white mb-1" style={{ 
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                       fontWeight: 700
                     }}>
                       {t.solutionPreview.step2.dragDropBuilder}
                     </h3>
-                    <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.solutionPreview.step2.dragDropDescription}
                     </p>
                   </div>
@@ -539,12 +539,12 @@ export function SolutionPreview() {
                   <div>
                     <h3 className="font-bold text-white mb-1" style={{ 
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                       fontWeight: 700
                     }}>
                       {t.solutionPreview.step2.smartTemplates}
                     </h3>
-                    <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.solutionPreview.step2.smartTemplatesDescription}
                     </p>
                   </div>
@@ -571,9 +571,9 @@ export function SolutionPreview() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                        className="px-2.5 py-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-md"
+                        className="px-4 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-md"
                       >
-                        <span className="text-[10px] font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        <span className="text-sm font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
                           {t.solutionPreview.step} 2
                         </span>
                       </motion.div>
@@ -979,9 +979,9 @@ export function SolutionPreview() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                      className="px-2.5 py-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-md"
+                      className="px-4 py-1.5 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-md"
                     >
-                      <span className="text-[10px] font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      <span className="text-sm font-bold text-white tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
                         {t.solutionPreview.step} 3
                       </span>
                     </motion.div>
@@ -1193,7 +1193,7 @@ export function SolutionPreview() {
                   <div>
                     <h3 className="font-bold text-white mb-1" style={{ 
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                       fontWeight: 700
                     }}>
                       {t.solutionPreview.step3.noCodeRequired}
@@ -1206,7 +1206,7 @@ export function SolutionPreview() {
                   <div>
                     <h3 className="font-bold text-white mb-1" style={{ 
                       fontFamily: "'Inter', sans-serif",
-                      fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                      fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                       fontWeight: 700
                     }}>
                       {t.solutionPreview.step3.aiPoweredInsights}
