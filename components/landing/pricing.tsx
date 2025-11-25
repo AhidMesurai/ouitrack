@@ -42,7 +42,7 @@ export function Pricing() {
         {/* Section Header */}
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {tiers.map((tier, index) => (
             <motion.div
               key={tier.name}
@@ -53,14 +53,14 @@ export function Pricing() {
               whileHover={{ y: -8, scale: 1.02 }}
               className={`relative ${tier.popular ? 'md:-mt-4 md:mb-4' : ''}`}
             >
-              <div className={`relative h-full p-8 rounded-3xl border-2 transition-all duration-300 ${
+              <div className={`relative h-full p-10 rounded-3xl border-2 transition-all duration-300 ${
                 tier.popular
                   ? 'bg-gradient-to-br from-gray-900 to-black border-purple-500/50 shadow-2xl shadow-purple-500/30'
                   : 'bg-gradient-to-br from-gray-900 to-black border-gray-800 hover:border-gray-700 hover:shadow-xl'
               }`}>
                 {tier.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs font-semibold shadow-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-semibold shadow-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.pricing.mostPopular}
                     </span>
                   </div>
@@ -68,21 +68,21 @@ export function Pricing() {
                 
                 {/* Plan Header */}
                 <div className="text-center mb-8">
-                  <h3 className="font-bold text-white mb-2" style={{ 
+                  <h3 className="font-bold text-white mb-3" style={{ 
                     fontFamily: "'Inter', sans-serif",
-                    fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+                    fontSize: 'clamp(1.25rem, 2.5vw, 2rem)',
                     fontWeight: 700
                   }}>
                     {tier.name}
                   </h3>
-                  <p className="text-xs text-gray-400 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <p className="text-sm text-gray-400 mb-6" style={{ fontFamily: "'Inter', sans-serif" }}>
                     {tier.description}
                   </p>
                   <div className="mb-6">
-                    <span className="text-base font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <span className="text-xl font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {tier.price}
                     </span>
-                    <span className="text-xs text-gray-400 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <span className="text-sm text-gray-400 font-medium" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {tier.period}
                     </span>
                   </div>
@@ -99,10 +99,10 @@ export function Pricing() {
                       transition={{ delay: index * 0.1 + i * 0.05 }}
                       className="flex items-center justify-center gap-3"
                     >
-                      <Check className={`w-4 h-4 flex-shrink-0 ${
+                      <Check className={`w-5 h-5 flex-shrink-0 ${
                         tier.popular ? 'text-purple-400' : 'text-green-400'
                       }`} />
-                      <span className="text-xs text-gray-300 text-center" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      <span className="text-sm text-gray-300 text-center" style={{ fontFamily: "'Inter', sans-serif" }}>
                         {feature}
                       </span>
                     </motion.li>
@@ -113,7 +113,7 @@ export function Pricing() {
                 <Link href="/login" className="block">
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button
-                      className={`w-full py-4 text-xs font-semibold rounded-xl transition-all ${
+                      className={`w-full py-4 text-sm font-semibold rounded-xl transition-all ${
                         tier.popular
                           ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-purple-500/50'
                           : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-700'
