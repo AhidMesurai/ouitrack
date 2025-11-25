@@ -1198,7 +1198,7 @@ export function SolutionPreview() {
                     }}>
                       {t.solutionPreview.step3.noCodeRequired}
                     </h3>
-                    <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.solutionPreview.step3.noCodeDescription}
                     </p>
                   </div>
@@ -1211,7 +1211,7 @@ export function SolutionPreview() {
                     }}>
                       {t.solutionPreview.step3.aiPoweredInsights}
                     </h3>
-                    <p className="text-xs text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {t.solutionPreview.step3.aiPoweredDescription}
                     </p>
                   </div>
