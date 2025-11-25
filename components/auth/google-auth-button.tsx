@@ -50,8 +50,9 @@ export function GoogleAuthButton() {
     <Button
       onClick={handleSignIn}
       disabled={loading}
-      className="w-full"
+      className="w-full px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-gray-100 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
       size="lg"
+      style={{ fontFamily: "'Satoshi', sans-serif" }}
     >
       {loading ? 'Signing in...' : 'Sign in with Google'}
     </Button>
