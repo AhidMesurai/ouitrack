@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
+import { useTheme } from '@/contexts/theme-context'
+import { cn } from '@/lib/utils'
 
 interface GA4Connection {
   id: string
@@ -17,6 +19,7 @@ interface GA4Connection {
 export function ConnectionStatus() {
   const [connections, setConnections] = useState<GA4Connection[]>([])
   const [loading, setLoading] = useState(true)
+  const { theme } = useTheme()
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -53,10 +56,18 @@ export function ConnectionStatus() {
 
   if (loading) {
     return (
-      <Card>
+      <Card className={cn(
+        theme === 'dark' 
+          ? 'bg-gray-900/50 border-gray-800 backdrop-blur-sm' 
+          : 'bg-white border-gray-200'
+      )}>
         <CardHeader>
-          <CardTitle>GA4 Connections</CardTitle>
-          <CardDescription>Loading...</CardDescription>
+          <CardTitle className={cn(theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+            GA4 Connections
+          </CardTitle>
+          <CardDescription className={cn(theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+            Loading...
+          </CardDescription>
         </CardHeader>
       </Card>
     )
@@ -64,14 +75,24 @@ export function ConnectionStatus() {
 
   if (connections.length === 0) {
     return (
-      <Card>
+      <Card className={cn(
+        theme === 'dark' 
+          ? 'bg-gray-900/50 border-gray-800 backdrop-blur-sm' 
+          : 'bg-white border-gray-200'
+      )}>
         <CardHeader>
-          <CardTitle>GA4 Connections</CardTitle>
-          <CardDescription>Connect your Google Analytics account to get started</CardDescription>
+          <CardTitle className={cn(theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+            GA4 Connections
+          </CardTitle>
+          <CardDescription className={cn(theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+            Connect your Google Analytics account to get started
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Link href="/dashboard/connect-ga4">
-            <Button>Connect GA4 Account</Button>
+            <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+              Connect GA4 Account
+            </Button>
           </Link>
         </CardContent>
       </Card>
@@ -79,17 +100,30 @@ export function ConnectionStatus() {
   }
 
   return (
-    <Card>
+    <Card className={cn(
+      theme === 'dark' 
+        ? 'bg-gray-900/50 border-gray-800 backdrop-blur-sm' 
+        : 'bg-white border-gray-200'
+    )}>
       <CardHeader>
-        <CardTitle>GA4 Connections</CardTitle>
-        <CardDescription>Your connected Google Analytics properties</CardDescription>
+        <CardTitle className={cn(theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+          GA4 Connections
+        </CardTitle>
+        <CardDescription className={cn(theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+          Your connected Google Analytics properties
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {connections.map((connection) => (
             <div
               key={connection.id}
-              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+              className={cn(
+                "flex items-center justify-between p-4 rounded-lg transition-colors",
+                theme === 'dark'
+                  ? 'bg-gray-800/50 border border-gray-700 hover:bg-gray-800'
+                  : 'bg-gray-50 border border-gray-200 hover:bg-gray-100'
+              )}
             >
               <div className="flex items-center space-x-3">
                 {connection.is_active ? (
@@ -98,16 +132,37 @@ export function ConnectionStatus() {
                   <XCircle className="h-5 w-5 text-red-500" />
                 )}
                 <div>
-                  <p className="font-medium text-gray-900">{connection.property_name}</p>
-                  <p className="text-sm text-gray-500">{connection.property_id}</p>
+                  <p className={cn(
+                    "font-medium",
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  )}>
+                    {connection.property_name}
+                  </p>
+                  <p className={cn(
+                    "text-sm",
+                    theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                  )}>
+                    {connection.property_id}
+                  </p>
                   {connection.last_synced_at && (
-                    <p className="text-xs text-gray-400">
+                    <p className={cn(
+                      "text-xs",
+                      theme === 'dark' ? 'text-gray-500' : 'text-gray-400'
+                    )}>
                       Last synced: {new Date(connection.last_synced_at).toLocaleString()}
                     </p>
                   )}
                 </div>
               </div>
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                className={cn(
+                  theme === 'dark'
+                    ? 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'
+                    : ''
+                )}
+              >
                 Manage
               </Button>
             </div>

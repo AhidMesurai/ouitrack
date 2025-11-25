@@ -3,10 +3,12 @@
 import { Sidebar } from './sidebar'
 import { useAuth } from '@/hooks/use-auth'
 import { useEffect, useState } from 'react'
+import { useTheme } from '@/contexts/theme-context'
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
   const [isAdmin, setIsAdmin] = useState(false)
+  const { theme } = useTheme()
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -22,7 +24,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   }, [user])
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className={`flex h-screen transition-colors duration-200 ${
+      theme === 'dark' 
+        ? 'bg-black' 
+        : 'bg-gray-50'
+    }`}>
       <Sidebar isAdmin={isAdmin} />
       <main className="flex-1 overflow-y-auto">
         <div className="py-6">

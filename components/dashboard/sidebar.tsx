@@ -6,6 +6,8 @@ import { LayoutDashboard, FileText, Settings, BarChart3, Users, LogOut } from 'l
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from './theme-toggle'
+import { useTheme } from '@/contexts/theme-context'
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -22,12 +24,21 @@ const adminNavigation = [
 export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
   const pathname = usePathname()
   const { signOut, user } = useAuth()
+  const { theme } = useTheme()
 
   return (
-    <div className="flex flex-col w-64 bg-white border-r border-gray-200 min-h-screen">
+    <div className={cn(
+      "flex flex-col w-64 border-r min-h-screen transition-colors duration-200",
+      theme === 'dark' 
+        ? 'bg-gray-900/95 backdrop-blur-sm border-gray-800' 
+        : 'bg-white border-gray-200'
+    )}>
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-        <div className="flex items-center flex-shrink-0 px-4">
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">OuiTrack</span>
+        <div className="flex items-center justify-between flex-shrink-0 px-4 mb-4">
+          <span className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent" style={{ fontFamily: "'Inter', sans-serif" }}>
+            Oui Track
+          </span>
+          <ThemeToggle />
         </div>
         <nav className="mt-5 flex-1 px-2 space-y-1">
           {navigation.map((item) => {
@@ -37,16 +48,25 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                  'group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200',
                   isActive
-                    ? 'bg-primary text-white'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? theme === 'dark'
+                      ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30'
+                      : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                    : theme === 'dark'
+                      ? 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 )}
+                style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 <item.icon
                   className={cn(
-                    'mr-3 flex-shrink-0 h-6 w-6',
-                    isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-500'
+                    'mr-3 flex-shrink-0 h-5 w-5 transition-colors',
+                    isActive 
+                      ? 'text-white' 
+                      : theme === 'dark'
+                        ? 'text-gray-400 group-hover:text-white'
+                        : 'text-gray-400 group-hover:text-gray-600'
                   )}
                 />
                 {item.name}
@@ -55,8 +75,14 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
           })}
           {isAdmin && (
             <>
-              <div className="pt-4 mt-4 border-t border-gray-200">
-                <div className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              <div className={cn(
+                "pt-4 mt-4 border-t",
+                theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
+              )}>
+                <div className={cn(
+                  "px-2 text-xs font-semibold uppercase tracking-wider",
+                  theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
+                )}>
                   Admin
                 </div>
               </div>
@@ -67,16 +93,25 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+                      'group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200',
                       isActive
-                        ? 'bg-primary text-white'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? theme === 'dark'
+                          ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-white border border-blue-500/30'
+                          : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : theme === 'dark'
+                          ? 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+                          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     )}
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     <item.icon
                       className={cn(
-                        'mr-3 flex-shrink-0 h-6 w-6',
-                        isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-500'
+                        'mr-3 flex-shrink-0 h-5 w-5 transition-colors',
+                        isActive 
+                          ? 'text-white' 
+                          : theme === 'dark'
+                            ? 'text-gray-400 group-hover:text-white'
+                            : 'text-gray-400 group-hover:text-gray-600'
                       )}
                     />
                     {item.name}
@@ -88,10 +123,16 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
         </nav>
         
         {/* User info and sign out at bottom */}
-        <div className="px-4 py-4 border-t border-gray-200">
+        <div className={cn(
+          "px-4 py-4 border-t",
+          theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
+        )}>
           <div className="flex items-center justify-between">
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className={cn(
+                "text-sm font-medium truncate",
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-900'
+              )} style={{ fontFamily: "'Inter', sans-serif" }}>
                 {user?.email}
               </p>
             </div>
@@ -100,7 +141,12 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
             variant="ghost"
             size="sm"
             onClick={signOut}
-            className="w-full mt-2 justify-start text-gray-600 hover:text-gray-900"
+            className={cn(
+              "w-full mt-2 justify-start transition-colors",
+              theme === 'dark'
+                ? 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            )}
           >
             <LogOut className="h-4 w-4 mr-2" />
             Sign Out

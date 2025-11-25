@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { ReportCard } from './report-card'
 import { ReportTemplate } from '@/types'
+import { useTheme } from '@/contexts/theme-context'
+import { cn } from '@/lib/utils'
 
 export function ReportGrid() {
   const [templates, setTemplates] = useState<ReportTemplate[]>([])
@@ -26,11 +28,19 @@ export function ReportGrid() {
     fetchTemplates()
   }, [])
 
+  const { theme } = useTheme()
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-64 bg-gray-200 animate-pulse rounded-lg" />
+          <div 
+            key={i} 
+            className={cn(
+              "h-64 animate-pulse rounded-lg",
+              theme === 'dark' ? 'bg-gray-800/50' : 'bg-gray-200'
+            )} 
+          />
         ))}
       </div>
     )
@@ -39,7 +49,11 @@ export function ReportGrid() {
   if (templates.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No report templates available yet.</p>
+        <p className={cn(
+          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+        )}>
+          No report templates available yet.
+        </p>
       </div>
     )
   }
