@@ -310,7 +310,7 @@ export function SolutionPreview() {
                       </motion.div>
                     </div>
                     
-                    <div className="flex items-center justify-between mb-3 mt-1">
+                    <div className="flex items-center justify-between mb-3 mt-6">
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg blur-sm opacity-50" />
@@ -579,7 +579,7 @@ export function SolutionPreview() {
                       </motion.div>
                     </div>
                     
-                    <div className="flex items-center justify-between mb-3 mt-1">
+                    <div className="flex items-center justify-between mb-3 mt-6">
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg blur-sm opacity-50" />
@@ -991,7 +991,7 @@ export function SolutionPreview() {
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
                   
                   <div className="relative bg-gradient-to-br from-gray-900/95 via-yellow-900/20 to-orange-900/20 rounded-xl p-5 sm:p-6 border border-yellow-500/30 shadow-lg backdrop-blur-xl overflow-hidden min-h-[500px]">
-                    <div className="flex items-center justify-between mb-4 mt-1">
+                    <div className="flex items-center justify-between mb-4 mt-6">
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg blur-sm opacity-50" />
