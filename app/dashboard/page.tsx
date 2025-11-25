@@ -6,6 +6,9 @@ import { ConnectionStatus } from '@/components/dashboard/connection-status'
 import { ReportGrid } from '@/components/reports/report-grid'
 import { useAuth } from '@/hooks/use-auth'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function DashboardPage() {
   const { user } = useAuth()
 

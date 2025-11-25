@@ -4,6 +4,9 @@ import { ProtectedRoute } from '@/components/auth/protected-route'
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function AdminUsersPage() {
   return (
     <ProtectedRoute requireAdmin>

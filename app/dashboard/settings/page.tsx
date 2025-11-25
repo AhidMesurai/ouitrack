@@ -6,6 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function SettingsPage() {
   const { user, signOut } = useAuth()
 

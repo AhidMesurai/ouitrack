@@ -3,6 +3,9 @@
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function TestSupabasePage() {
   const [info, setInfo] = useState<any>({ loading: true })
 

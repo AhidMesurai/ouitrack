@@ -5,6 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import { AlertCircle } from 'lucide-react'
 import { Suspense } from 'react'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 function LoginContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')

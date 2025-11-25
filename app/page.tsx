@@ -7,6 +7,9 @@ import { SolutionPreview } from '@/components/landing/solution-preview'
 import { Pricing } from '@/components/landing/pricing'
 import { Footer } from '@/components/landing/footer'
 
+// Force dynamic rendering to avoid SSR issues with context
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <div className="min-h-screen">

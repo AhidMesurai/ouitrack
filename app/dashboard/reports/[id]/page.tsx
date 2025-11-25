@@ -11,6 +11,9 @@ import { useParams } from 'next/navigation'
 import { ReportTemplate } from '@/types'
 import { format, subDays } from 'date-fns'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function ReportViewerPage() {
   const params = useParams()
   const templateId = params.id as string

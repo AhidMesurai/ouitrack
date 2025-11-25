@@ -16,6 +16,9 @@ import { validateTemplate } from '@/lib/template-validation'
 import { Save, ArrowLeft, Loader2, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function EditTemplatePage() {
   const router = useRouter()
   const params = useParams()

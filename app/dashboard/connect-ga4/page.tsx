@@ -8,6 +8,9 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function ConnectGA4Page() {
   const [loading, setLoading] = useState(false)
   const [connected, setConnected] = useState(false)

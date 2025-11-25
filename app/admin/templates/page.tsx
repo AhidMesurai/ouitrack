@@ -10,6 +10,9 @@ import { Edit2, Trash2, Copy, Plus, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { ReportTemplate } from '@/types'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 export default function AdminTemplatesPage() {
   const router = useRouter()
   const [templates, setTemplates] = useState<ReportTemplate[]>([])
