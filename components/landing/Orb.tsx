@@ -187,15 +187,34 @@ export default function Orb({
     const container = ctnDom.current
     if (!container) return
 
+    // Check if WebGL is supported before attempting to create renderer
+    const canvas = document.createElement('canvas')
+    const testGl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    if (!testGl) {
+      console.warn('WebGL not supported, Orb animation will not be displayed')
+      return
+    }
+
     try {
       const renderer = new Renderer({ alpha: true, premultipliedAlpha: false })
-      const gl = renderer.gl
-      if (!gl) {
-        console.warn('WebGL not supported')
+      if (!renderer) {
+        console.warn('Failed to create WebGL renderer')
         return
       }
+      
+      const gl = renderer.gl
+      if (!gl) {
+        console.warn('WebGL context not available')
+        return
+      }
+      
       gl.clearColor(0, 0, 0, 0)
-      container.appendChild(gl.canvas)
+      if (gl.canvas && container) {
+        container.appendChild(gl.canvas)
+      } else {
+        console.warn('Canvas not available or container missing')
+        return
+      }
 
       const geometry = new Triangle(gl)
       const program = new Program(gl, {
@@ -216,14 +235,22 @@ export default function Orb({
       const mesh = new Mesh(gl, { geometry, program })
 
       const resize = () => {
-        if (!container) return
-        const dpr = window.devicePixelRatio || 1
-        const width = container.clientWidth
-        const height = container.clientHeight
-        renderer.setSize(width * dpr, height * dpr)
-        gl.canvas.style.width = width + 'px'
-        gl.canvas.style.height = height + 'px'
-        program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        if (!container || !renderer || !gl || !gl.canvas) return
+        try {
+          const dpr = window.devicePixelRatio || 1
+          const width = container.clientWidth
+          const height = container.clientHeight
+          if (width > 0 && height > 0) {
+            renderer.setSize(width * dpr, height * dpr)
+            gl.canvas.style.width = width + 'px'
+            gl.canvas.style.height = height + 'px'
+            if (program && program.uniforms && program.uniforms.iResolution) {
+              program.uniforms.iResolution.value.set(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+            }
+          }
+        } catch (error) {
+          console.warn('Error resizing WebGL canvas:', error)
+        }
       }
 
       window.addEventListener('resize', resize)
@@ -263,39 +290,74 @@ export default function Orb({
       let rafId: number
 
       const update = (t: number) => {
-        rafId = requestAnimationFrame(update)
-        const dt = (t - lastTime) * 0.001
-        lastTime = t
-
-        program.uniforms.iTime.value = t * 0.001
-        program.uniforms.hue.value = hue
-        program.uniforms.hoverIntensity.value = hoverIntensity
-
-        const effectiveHover = forceHoverState ? 1 : targetHover
-        program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1
-
-        if (rotateOnHover && effectiveHover > 0.5) {
-          currentRot += dt * rotationSpeed
+        if (!gl || !program || !mesh || !renderer) {
+          if (rafId) {
+            cancelAnimationFrame(rafId)
+          }
+          return
         }
-        program.uniforms.rot.value = currentRot
+        
+        try {
+          rafId = requestAnimationFrame(update)
+          const dt = (t - lastTime) * 0.001
+          lastTime = t
 
-        renderer.render({ scene: mesh })
+          if (program.uniforms) {
+            program.uniforms.iTime.value = t * 0.001
+            program.uniforms.hue.value = hue
+            program.uniforms.hoverIntensity.value = hoverIntensity
+
+            const effectiveHover = forceHoverState ? 1 : targetHover
+            program.uniforms.hover.value += (effectiveHover - program.uniforms.hover.value) * 0.1
+
+            if (rotateOnHover && effectiveHover > 0.5) {
+              currentRot += dt * rotationSpeed
+            }
+            program.uniforms.rot.value = currentRot
+          }
+
+          renderer.render({ scene: mesh })
+        } catch (error) {
+          console.warn('Error in WebGL animation:', error)
+          if (rafId) {
+            cancelAnimationFrame(rafId)
+          }
+        }
       }
 
       rafId = requestAnimationFrame(update)
 
       return () => {
-        cancelAnimationFrame(rafId)
-        window.removeEventListener('resize', resize)
-        container.removeEventListener('mousemove', handleMouseMove)
-        container.removeEventListener('mouseleave', handleMouseLeave)
-        if (container.contains(gl.canvas)) {
-          container.removeChild(gl.canvas)
+        try {
+          if (rafId) {
+            cancelAnimationFrame(rafId)
+          }
+          window.removeEventListener('resize', resize)
+          if (container) {
+            container.removeEventListener('mousemove', handleMouseMove)
+            container.removeEventListener('mouseleave', handleMouseLeave)
+            if (gl && gl.canvas && container.contains(gl.canvas)) {
+              container.removeChild(gl.canvas)
+            }
+          }
+          if (gl) {
+            const loseContext = gl.getExtension('WEBGL_lose_context')
+            if (loseContext) {
+              loseContext.loseContext()
+            }
+          }
+        } catch (error) {
+          console.warn('Error cleaning up WebGL context:', error)
         }
-        gl.getExtension('WEBGL_lose_context')?.loseContext()
       }
     } catch (error) {
       console.error('Error initializing Orb:', error)
+      // Silently fail - the page will still work without the orb animation
+    }
+    
+    // Cleanup function
+    return () => {
+      // Cleanup is handled in the try block's return function
     }
   }, [mounted, hue, hoverIntensity, rotateOnHover, forceHoverState])
 
