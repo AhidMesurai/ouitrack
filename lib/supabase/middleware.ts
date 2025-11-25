@@ -6,6 +6,9 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  // Ensure cookies work in production
+  const isProduction = process.env.NODE_ENV === 'production'
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -19,9 +22,15 @@ export async function updateSession(request: NextRequest) {
           supabaseResponse = NextResponse.next({
             request,
           })
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          )
+          cookiesToSet.forEach(({ name, value, options }) => {
+            // Preserve Supabase's cookie options, but ensure domain is set for production
+            const finalOptions = { ...options }
+            if (isProduction && !finalOptions.domain) {
+              // Only set domain if not already set by Supabase
+              finalOptions.domain = '.mesurai.com'
+            }
+            supabaseResponse.cookies.set(name, value, finalOptions)
+          })
         },
       },
     }

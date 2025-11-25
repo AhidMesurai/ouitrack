@@ -35,6 +35,9 @@ export async function GET(request: NextRequest) {
     console.log('Available cookies:', allCookies.map(c => c.name))
 
     // Create Supabase client using request.cookies (same as middleware)
+    // Note: Let Supabase handle cookie options, but ensure domain is set for production
+    const isProduction = process.env.NODE_ENV === 'production'
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -51,7 +54,13 @@ export async function GET(request: NextRequest) {
               request,
             })
             cookiesToSet.forEach(({ name, value, options }) => {
-              response.cookies.set(name, value, options)
+              // Preserve Supabase's cookie options, but ensure domain is set for production
+              const finalOptions = { ...options }
+              if (isProduction && !finalOptions.domain) {
+                // Only set domain if not already set by Supabase
+                finalOptions.domain = '.mesurai.com'
+              }
+              response.cookies.set(name, value, finalOptions)
             })
           },
         },
