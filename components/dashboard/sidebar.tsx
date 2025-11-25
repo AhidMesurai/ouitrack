@@ -36,10 +36,10 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
 
   return (
     <div className={cn(
-      "flex flex-col w-64 border-r min-h-screen transition-colors duration-200",
+      "flex flex-col w-64 border-r min-h-screen transition-colors duration-200 relative z-20",
       theme === 'dark' 
-        ? 'bg-gray-900/95 backdrop-blur-sm border-gray-800' 
-        : 'bg-white border-gray-200'
+        ? 'bg-gray-900/80 backdrop-blur-xl border-gray-800/50 shadow-2xl' 
+        : 'bg-white/95 backdrop-blur-sm border-gray-200 shadow-lg'
     )}>
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div className="flex items-center justify-between flex-shrink-0 px-4 mb-4">
