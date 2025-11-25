@@ -215,7 +215,7 @@ export default function Orb({
 
       const mesh = new Mesh(gl, { geometry, program })
 
-      function resize() {
+      const resize = () => {
         if (!container) return
         const dpr = window.devicePixelRatio || 1
         const width = container.clientWidth
