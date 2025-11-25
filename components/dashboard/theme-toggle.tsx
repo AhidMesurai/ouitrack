@@ -6,7 +6,17 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, toggleTheme } = useTheme()
+  // Use try-catch to handle SSR case where theme might not be available
+  let theme: 'light' | 'dark' = 'dark'
+  let toggleTheme = () => {}
+  try {
+    const themeContext = useTheme()
+    theme = themeContext.theme
+    toggleTheme = themeContext.toggleTheme
+  } catch (e) {
+    // During SSR, use default theme
+    theme = 'dark'
+  }
 
   return (
     <Button

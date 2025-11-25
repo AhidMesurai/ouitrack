@@ -28,7 +28,15 @@ export function ReportGrid() {
     fetchTemplates()
   }, [])
 
-  const { theme } = useTheme()
+  // Use try-catch to handle SSR case where theme might not be available
+  let theme: 'light' | 'dark' = 'dark'
+  try {
+    const themeContext = useTheme()
+    theme = themeContext.theme
+  } catch (e) {
+    // During SSR, use default theme
+    theme = 'dark'
+  }
 
   if (loading) {
     return (

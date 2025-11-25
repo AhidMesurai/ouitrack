@@ -8,7 +8,15 @@ import { useTheme } from '@/contexts/theme-context'
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth()
   const [isAdmin, setIsAdmin] = useState(false)
-  const { theme } = useTheme()
+  // Use try-catch to handle SSR case where theme might not be available
+  let theme: 'light' | 'dark' = 'dark'
+  try {
+    const themeContext = useTheme()
+    theme = themeContext.theme
+  } catch (e) {
+    // During SSR, use default theme
+    theme = 'dark'
+  }
 
   useEffect(() => {
     const checkAdmin = async () => {
