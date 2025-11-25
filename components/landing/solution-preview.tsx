@@ -294,7 +294,7 @@ export function SolutionPreview() {
               >
                 <div className="relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
-                  <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/20 to-blue-900/20 rounded-xl p-4 border border-purple-500/30 shadow-lg backdrop-blur-xl min-h-[300px]">
+                  <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/20 to-blue-900/20 rounded-xl p-6 border border-purple-500/30 shadow-lg backdrop-blur-xl min-h-[400px]">
                     {/* Step 1 Badge */}
                     <div className="absolute -top-2.5 -left-2.5">
                       <motion.div
@@ -314,16 +314,16 @@ export function SolutionPreview() {
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg blur-sm opacity-50" />
-                          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-sm">
-                            <BarChart3 className="w-3.5 h-3.5 text-white" />
+                          <div className="relative w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-sm">
+                            <BarChart3 className="w-5 h-5 text-white" />
                           </div>
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          <h4 className="text-base font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                             {t.solutionPreview.step1.connectDataSource}
                           </h4>
-                          <p className="text-[10px] text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                            <span className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" />
+                          <p className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
                             {t.solutionPreview.step1.selectConnector}
                           </p>
                         </div>
@@ -331,13 +331,13 @@ export function SolutionPreview() {
                     </div>
                     
                     {/* Dropdown Selector */}
-                    <div className="mb-3">
-                      <label className="text-[10px] text-gray-400 mb-1.5 block" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <div className="mb-4">
+                      <label className="text-sm text-gray-400 mb-2 block" style={{ fontFamily: "'Inter', sans-serif" }}>
                         {t.solutionPreview.step1.chooseDataSource}
                       </label>
                       <div className="relative">
                         <motion.select 
-                          className="w-full p-2 bg-gray-900/60 border border-gray-700/50 rounded-lg text-white text-xs focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all appearance-none cursor-not-allowed pointer-events-none"
+                          className="w-full p-3 bg-gray-900/60 border border-gray-700/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all appearance-none cursor-not-allowed pointer-events-none"
                           style={{ fontFamily: "'Inter', sans-serif" }}
                           value={steps[0].dataSources?.[selectedConnector]?.name || ''}
                           onChange={() => {}} // Controlled by animation, prevent user changes
@@ -360,7 +360,7 @@ export function SolutionPreview() {
                           animate={{ rotate: [0, 180, 0] }}
                           transition={{ duration: 0.5, delay: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
                         >
-                          <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </motion.div>
@@ -384,7 +384,7 @@ export function SolutionPreview() {
                               }}
                             >
                               <motion.div 
-                                className="p-1.5 rounded-lg"
+                                className="p-2 rounded-lg"
                                 style={{ backgroundColor: `${currentSource.color}20` }}
                                 animate={{ 
                                   scale: [1, 1.1, 1],
@@ -395,11 +395,11 @@ export function SolutionPreview() {
                                   delay: 0.1
                                 }}
                               >
-                                <SourceIcon className="w-3.5 h-3.5" style={{ color: currentSource.color }} />
+                                <SourceIcon className="w-5 h-5" style={{ color: currentSource.color }} />
                               </motion.div>
                               <div className="flex-1">
                                 <motion.p 
-                                  className="text-[10px] font-semibold text-white" 
+                                  className="text-sm font-semibold text-white" 
                                   style={{ fontFamily: "'Inter', sans-serif" }}
                                   initial={{ opacity: 0 }}
                                   animate={{ opacity: 1 }}
@@ -414,7 +414,7 @@ export function SolutionPreview() {
                                    currentSource.name}
                                 </motion.p>
                                 <motion.p 
-                                  className="text-[10px] text-gray-400" 
+                                  className="text-xs text-gray-400" 
                                   style={{ fontFamily: "'Inter', sans-serif" }}
                                   initial={{ opacity: 0 }}
                                   animate={{ opacity: 1 }}
@@ -424,7 +424,7 @@ export function SolutionPreview() {
                                 </motion.p>
                               </div>
                               <motion.div 
-                                className="w-1.5 h-1.5 bg-green-500 rounded-full"
+                                className="w-2 h-2 bg-green-500 rounded-full"
                                 animate={{ 
                                   scale: [1, 1.2, 1],
                                   opacity: [1, 0.7, 1]
@@ -563,7 +563,7 @@ export function SolutionPreview() {
                   {/* Glow effect */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
                   
-                  <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/20 to-pink-900/20 rounded-xl p-3 sm:p-4 border border-purple-500/30 shadow-lg backdrop-blur-xl overflow-visible min-h-[400px]">
+                  <div className="relative bg-gradient-to-br from-gray-900/95 via-purple-900/20 to-pink-900/20 rounded-xl p-5 sm:p-6 border border-purple-500/30 shadow-lg backdrop-blur-xl overflow-visible min-h-[500px]">
                     {/* Step 2 Badge */}
                     <div className="absolute -top-2.5 -left-2.5 z-10">
                       <motion.div
@@ -583,16 +583,16 @@ export function SolutionPreview() {
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg blur-sm opacity-50" />
-                          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-sm">
-                            <Layout className="w-3.5 h-3.5 text-white" />
+                          <div className="relative w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-sm">
+                            <Layout className="w-5 h-5 text-white" />
                           </div>
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          <h4 className="text-base font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                             {t.solutionPreview.step2.buildDashboard}
                           </h4>
-                          <p className="text-[10px] text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                            <span className="w-1 h-1 bg-purple-500 rounded-full animate-pulse" />
+                          <p className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <span className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse" />
                             {t.solutionPreview.step2.dragDropComponents}
                           </p>
                         </div>
@@ -600,10 +600,10 @@ export function SolutionPreview() {
                     </div>
 
                     {/* Two Column Layout: Components Grid + Dashboard */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2 relative overflow-hidden">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3 relative overflow-hidden">
                       {/* Left: Components Grid */}
                       <div className="relative">
-                        <h5 className="text-[10px] text-gray-400 mb-1.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        <h5 className="text-sm text-gray-400 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
                           {t.solutionPreview.step2.availableComponents}
                         </h5>
                         <div className="grid grid-cols-3 gap-1 sm:gap-1 relative mb-2">
@@ -627,17 +627,17 @@ export function SolutionPreview() {
                                 zIndex: isDragging ? 50 : 1,
                               }}
                               whileHover={{ scale: 1.1, y: -3, rotate: -5 }}
-                              className="group relative p-3 bg-gray-900/60 rounded-lg border transition-all backdrop-blur-sm cursor-pointer"
+                              className="group relative p-4 bg-gray-900/60 rounded-lg border transition-all backdrop-blur-sm cursor-pointer"
                               style={{ backgroundColor: `${component.color}15` }}
                               title={component.name}
                             >
                               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                              <ComponentIcon className="w-4 h-4 relative z-10" style={{ color: component.color }} />
+                              <ComponentIcon className="w-5 h-5 relative z-10" style={{ color: component.color }} />
                               {isSelected && !isDragging && (
                                 <motion.div
                                   initial={{ scale: 0 }}
                                   animate={{ scale: 1 }}
-                                  className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-900"
+                                  className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-900"
                                 />
                               )}
                               {isDragging && (
@@ -646,7 +646,7 @@ export function SolutionPreview() {
                                   animate={{ scale: 1, rotate: 15 }}
                                   className="absolute -top-1 -right-1"
                                 >
-                                  <Move className="w-3 h-3 text-purple-400" />
+                                  <Move className="w-4 h-4 text-purple-400" />
                                 </motion.div>
                               )}
                             </motion.div>
@@ -674,8 +674,8 @@ export function SolutionPreview() {
                                 transform: 'translate(-50%, -50%)',
                               }}
                             >
-                              <div className="relative p-3 bg-gradient-to-br from-purple-500/90 to-pink-500/90 rounded-xl border-2 border-purple-400 shadow-2xl backdrop-blur-md">
-                                <DraggedIcon className="w-5 h-5 text-white" style={{ color: draggedComponent.color }} />
+                              <div className="relative p-4 bg-gradient-to-br from-purple-500/90 to-pink-500/90 rounded-xl border-2 border-purple-400 shadow-2xl backdrop-blur-md">
+                                <DraggedIcon className="w-6 h-6 text-white" style={{ color: draggedComponent.color }} />
                                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur opacity-50 animate-pulse" />
                               </div>
                             </motion.div>
@@ -684,11 +684,11 @@ export function SolutionPreview() {
                       </div>
                       
                         {/* Prebuilt Reports Section */}
-                        <div className="mt-2">
-                          <h6 className="text-[9px] text-gray-500 mb-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        <div className="mt-3">
+                          <h6 className="text-xs text-gray-500 mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
                             {t.solutionPreview.step2.prebuiltReports}
                           </h6>
-                          <div className="space-y-0.5">
+                          <div className="space-y-1">
                             {[
                               { name: t.solutionPreview.step2.ecommerce, icon: ShoppingCart },
                               { name: t.solutionPreview.step2.marketing, icon: TrendingUp },
@@ -702,10 +702,10 @@ export function SolutionPreview() {
                                   whileInView={{ opacity: 1, x: 0 }}
                                   viewport={{ once: true }}
                                   transition={{ delay: 0.3 + idx * 0.1 }}
-                                  className="flex items-center gap-1 p-1 bg-gray-900/40 rounded border border-gray-800/50 hover:border-purple-500/50 transition-colors cursor-pointer group"
+                                  className="flex items-center gap-2 p-2 bg-gray-900/40 rounded border border-gray-800/50 hover:border-purple-500/50 transition-colors cursor-pointer group"
                                 >
-                                  <ReportIcon className="w-2.5 h-2.5 text-purple-400 group-hover:text-purple-300 transition-colors flex-shrink-0" />
-                                  <span className="text-[9px] text-gray-300 group-hover:text-white transition-colors truncate" style={{ fontFamily: "'Inter', sans-serif" }}>
+                                  <ReportIcon className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors flex-shrink-0" />
+                                  <span className="text-xs text-gray-300 group-hover:text-white transition-colors truncate" style={{ fontFamily: "'Inter', sans-serif" }}>
                                     {report.name}
                                   </span>
                                 </motion.div>
@@ -718,13 +718,13 @@ export function SolutionPreview() {
                     {/* Right: Building Dashboard */}
                     <div className="relative">
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-xs font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                        <h4 className="text-base font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                           {t.solutionPreview.step2.buildingDashboard}
                         </h4>
-                        <div className="flex gap-1">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                          <div className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                          <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                        <div className="flex gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                          <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" style={{ animationDelay: '0.4s' }} />
                         </div>
                       </div>
 
@@ -742,8 +742,8 @@ export function SolutionPreview() {
                             className="bg-white/5 rounded-lg border border-white/10 p-3 backdrop-blur-sm"
                           >
                             <div className="flex items-center gap-2 mb-2">
-                              <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
-                              <span className="text-xs font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                              <TrendingUp className="w-4 h-4 text-blue-400" />
+                              <span className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step2.sessionsOverTime}
                               </span>
                             </div>
@@ -774,8 +774,8 @@ export function SolutionPreview() {
                             className="bg-white/5 rounded border border-white/10 p-2 backdrop-blur-sm"
                           >
                             <div className="flex items-center gap-1.5 mb-1.5">
-                              <ShoppingCart className="w-3 h-3 text-green-400" />
-                              <span className="text-[10px] font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                              <ShoppingCart className="w-4 h-4 text-green-400" />
+                              <span className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step2.conversionRate}
                               </span>
                             </div>
@@ -784,7 +784,7 @@ export function SolutionPreview() {
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: 0.3, type: 'spring' }}
-                                className="text-sm font-bold text-white"
+                                className="text-base font-bold text-white"
                                 style={{ fontFamily: "'Inter', sans-serif" }}
                               >
                                 3.42%
@@ -793,7 +793,7 @@ export function SolutionPreview() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.4 }}
-                                className="text-[10px] text-green-400 font-semibold"
+                                className="text-xs text-green-400 font-semibold"
                                 style={{ fontFamily: "'Inter', sans-serif" }}
                               >
                                 +5.1%
@@ -815,8 +815,8 @@ export function SolutionPreview() {
                             className="bg-white/5 rounded border border-white/10 p-2 backdrop-blur-sm"
                           >
                             <div className="flex items-center gap-1.5 mb-1.5">
-                              <PieChart className="w-3 h-3 text-pink-400" />
-                              <span className="text-[10px] font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                              <PieChart className="w-4 h-4 text-pink-400" />
+                              <span className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step2.trafficSources}
                               </span>
                             </div>
@@ -862,12 +862,12 @@ export function SolutionPreview() {
                             className="bg-white/5 rounded border border-white/10 p-2 backdrop-blur-sm"
                           >
                             <div className="flex items-center gap-1.5 mb-1.5">
-                              <Table className="w-3 h-3 text-green-400" />
-                              <span className="text-[10px] font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                              <Table className="w-4 h-4 text-green-400" />
+                              <span className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step2.campaignPerformance}
                               </span>
                             </div>
-                            <div className="space-y-1">
+                            <div className="space-y-1.5">
                               {[
                                 { campaign: t.solutionPreview.step2.summerSale, clicks: '12.5K', conversions: '1.2K', revenue: '$45K' },
                                 { campaign: t.solutionPreview.step2.productLaunch, clicks: '8.3K', conversions: '890', revenue: '$32K' },
@@ -878,7 +878,7 @@ export function SolutionPreview() {
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: 0.3 + i * 0.1 }}
-                                  className="grid grid-cols-4 gap-1.5 text-[10px] border-b border-white/5 pb-1 last:border-0"
+                                  className="grid grid-cols-4 gap-2 text-xs border-b border-white/5 pb-1.5 last:border-0"
                                 >
                                   <span className="text-gray-300 truncate" style={{ fontFamily: "'Inter', sans-serif" }}>
                                     {row.campaign}
@@ -907,8 +907,8 @@ export function SolutionPreview() {
                             transition={{ duration: 1.5, repeat: Infinity }}
                             className="bg-white/5 rounded border border-dashed border-white/20 p-2 backdrop-blur-sm flex items-center justify-center gap-1.5"
                           >
-                            <Plus className="w-3 h-3 text-gray-400" />
-                            <span className="text-[10px] text-gray-400" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <Plus className="w-4 h-4 text-gray-400" />
+                            <span className="text-sm text-gray-400" style={{ fontFamily: "'Inter', sans-serif" }}>
                               {draggingComponent !== null ? t.solutionPreview.step2.dropping : t.solutionPreview.step2.adding}
                             </span>
                           </motion.div>
@@ -990,21 +990,21 @@ export function SolutionPreview() {
                   {/* Glow effect */}
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
                   
-                  <div className="relative bg-gradient-to-br from-gray-900/95 via-yellow-900/20 to-orange-900/20 rounded-xl p-3 sm:p-4 border border-yellow-500/30 shadow-lg backdrop-blur-xl overflow-hidden min-h-[400px]">
-                    <div className="flex items-center justify-between mb-3 mt-1">
+                  <div className="relative bg-gradient-to-br from-gray-900/95 via-yellow-900/20 to-orange-900/20 rounded-xl p-5 sm:p-6 border border-yellow-500/30 shadow-lg backdrop-blur-xl overflow-hidden min-h-[500px]">
+                    <div className="flex items-center justify-between mb-4 mt-1">
                       <div className="flex items-center gap-2">
                         <div className="relative">
                           <div className="absolute inset-0 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg blur-sm opacity-50" />
-                          <div className="relative w-7 h-7 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-sm">
-                            <Lightbulb className="w-3.5 h-3.5 text-white" />
+                          <div className="relative w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-sm">
+                            <Lightbulb className="w-5 h-5 text-white" />
                           </div>
                         </div>
                         <div>
-                          <h4 className="text-xs font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          <h4 className="text-base font-bold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                             {t.solutionPreview.step3.understandInsights}
                           </h4>
-                          <p className="text-[10px] text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                            <span className="w-1 h-1 bg-yellow-500 rounded-full animate-pulse" />
+                          <p className="text-xs text-gray-400 flex items-center gap-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-pulse" />
                             {t.solutionPreview.step3.askAI}
                           </p>
                         </div>
@@ -1012,7 +1012,7 @@ export function SolutionPreview() {
                     </div>
 
                     {/* Chat Interface */}
-                    <div className="space-y-2 h-64 overflow-y-auto hide-scrollbar">
+                    <div className="space-y-3 h-72 overflow-y-auto hide-scrollbar">
                       {/* User Message 1 */}
                       <AnimatePresence>
                         {chatMessages >= 1 && (
@@ -1023,13 +1023,13 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2 justify-end"
                           >
-                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.user1}
                               </p>
                             </div>
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                              <User className="w-3 h-3 text-blue-400" />
+                            <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+                              <User className="w-4 h-4 text-blue-400" />
                             </div>
                           </motion.div>
                         )}
@@ -1045,11 +1045,11 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2"
                           >
-                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
-                              <Bot className="w-3 h-3 text-white" />
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                              <Bot className="w-4 h-4 text-white" />
                             </div>
-                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.ai1}
                               </p>
                             </div>
@@ -1067,13 +1067,13 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2 justify-end"
                           >
-                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.user2}
                               </p>
                             </div>
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                              <User className="w-3 h-3 text-blue-400" />
+                            <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+                              <User className="w-4 h-4 text-blue-400" />
                             </div>
                           </motion.div>
                         )}
@@ -1089,11 +1089,11 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2"
                           >
-                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
-                              <Bot className="w-3 h-3 text-white" />
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                              <Bot className="w-4 h-4 text-white" />
                             </div>
-                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.ai2}
                               </p>
                             </div>
@@ -1111,13 +1111,13 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2 justify-end"
                           >
-                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-white" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.user3}
                               </p>
                             </div>
-                            <div className="w-5 h-5 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                              <User className="w-3 h-3 text-blue-400" />
+                            <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+                              <User className="w-4 h-4 text-blue-400" />
                             </div>
                           </motion.div>
                         )}
@@ -1133,11 +1133,11 @@ export function SolutionPreview() {
                             transition={{ duration: 0.3 }}
                             className="flex items-start gap-2"
                           >
-                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
-                              <Bot className="w-3 h-3 text-white" />
+                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                              <Bot className="w-4 h-4 text-white" />
                             </div>
-                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-2 max-w-[80%]">
-                              <p className="text-[10px] text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            <div className="bg-gray-800/60 border border-yellow-500/30 rounded-lg p-3 max-w-[80%]">
+                              <p className="text-sm text-gray-300" style={{ fontFamily: "'Inter', sans-serif" }}>
                                 {t.solutionPreview.step3.chatMessages.ai3}
                               </p>
                             </div>
