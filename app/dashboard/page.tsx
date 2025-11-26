@@ -27,56 +27,36 @@ export default function DashboardPage() {
   return (
     <ProtectedRoute>
       <DashboardLayout>
-        <div className="space-y-8">
-          {/* Header Section with Animation */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <div className="relative">
-              <h1 className={cn(
-                "text-4xl font-bold mb-3 bg-gradient-to-r bg-clip-text text-transparent",
-                theme === 'dark' 
-                  ? 'from-white via-gray-200 to-gray-400' 
-                  : 'from-gray-900 via-gray-700 to-gray-500'
-              )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                Dashboard
-              </h1>
-              <p className={cn(
-                "text-lg",
-                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-              )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                Welcome back, <span className="font-semibold text-white">{user?.email}</span>
-              </p>
-            </div>
-          </motion.div>
+        <div className="space-y-6">
+          {/* Header Section */}
+          <div className="relative">
+            <h1 className={cn(
+              "text-3xl font-bold mb-2",
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            )} style={{ fontFamily: "'Inter', sans-serif" }}>
+              Dashboard
+            </h1>
+            <p className={cn(
+              "text-sm",
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            )} style={{ fontFamily: "'Inter', sans-serif" }}>
+              Welcome back, <span className="font-semibold">{user?.email}</span>
+            </p>
+          </div>
 
-          {/* Connection Status with Animation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <ConnectionStatus />
-          </motion.div>
+          {/* Connection Status */}
+          <ConnectionStatus />
 
-          {/* Reports Section with Animation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className={cn(
-                "text-2xl font-semibold",
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                Available Reports
-              </h2>
-            </div>
+          {/* Reports Section */}
+          <div>
+            <h2 className={cn(
+              "text-xl font-semibold mb-4",
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            )} style={{ fontFamily: "'Inter', sans-serif" }}>
+              Available Reports
+            </h2>
             <ReportGrid />
-          </motion.div>
+          </div>
         </div>
       </DashboardLayout>
     </ProtectedRoute>

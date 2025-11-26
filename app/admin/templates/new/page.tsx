@@ -13,8 +13,10 @@ import { TestPanel } from '@/components/template-builder/test-panel'
 import { Button } from '@/components/ui/button'
 import { ReportTemplate, MetricConfig, ChartConfig } from '@/types'
 import { validateTemplate } from '@/lib/template-validation'
-import { Save, ArrowLeft, Loader2 } from 'lucide-react'
+import { Save, ArrowLeft, Loader2, FileText } from 'lucide-react'
 import Link from 'next/link'
+import { useTheme } from '@/contexts/theme-context'
+import { cn } from '@/lib/utils'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
@@ -22,6 +24,15 @@ export const dynamic = 'force-dynamic'
 export default function NewTemplatePage() {
   const router = useRouter()
   const [saving, setSaving] = useState(false)
+  // Use try-catch to handle SSR case where theme might not be available
+  let theme: 'light' | 'dark' = 'dark'
+  try {
+    const themeContext = useTheme()
+    theme = themeContext.theme
+  } catch (e) {
+    // During SSR, use default theme
+    theme = 'dark'
+  }
   const [template, setTemplate] = useState<Partial<ReportTemplate>>({
     name: '',
     description: '',

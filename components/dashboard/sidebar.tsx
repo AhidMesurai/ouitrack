@@ -43,7 +43,18 @@ export function Sidebar({ isAdmin = false }: { isAdmin?: boolean }) {
     )}>
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <div className="flex items-center justify-between flex-shrink-0 px-4 mb-4">
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <span 
+            className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+            style={{ 
+              fontFamily: "'Rubik Glitch', sans-serif",
+              fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+              letterSpacing: '0.05em',
+              fontWeight: 400,
+              textShadow: theme === 'dark' 
+                ? '0 2px 20px rgba(255, 255, 255, 0.1), 0 4px 40px rgba(255, 255, 255, 0.05)' 
+                : 'none'
+            }}
+          >
             Oui Track
           </span>
           <ThemeToggle />
