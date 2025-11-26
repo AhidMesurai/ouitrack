@@ -20,7 +20,7 @@ interface GA4Connection {
 export function ConnectionStatus() {
   const [connections, setConnections] = useState<GA4Connection[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedConnector, setSelectedConnector] = useState(0)
+  const [selectedConnector, setSelectedConnector] = useState(0) // Default to GA4 (index 0)
   // Use try-catch to handle SSR case where theme might not be available
   let theme: 'light' | 'dark' = 'dark'
   try {
@@ -39,15 +39,6 @@ export function ConnectionStatus() {
     { icon: Zap, name: 'Shopify', color: '#22c55e', enabled: false },
     { icon: Mail, name: 'Email', color: '#eab308', enabled: false },
   ]
-
-  // Auto-cycle through connectors for animation (only GA4 enabled)
-  useEffect(() => {
-    if (loading) return
-    const interval = setInterval(() => {
-      setSelectedConnector((prev) => (prev + 1) % dataSources.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [loading])
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -178,26 +169,21 @@ export function ConnectionStatus() {
                 Choose Data Source
               </label>
               <div className="relative">
-                <motion.select 
+                <select 
                   className={cn(
-                    "w-full p-3 rounded-lg text-sm focus:outline-none focus:ring-1 transition-all appearance-none",
+                    "w-full p-3 rounded-lg text-sm focus:outline-none focus:ring-1 transition-all appearance-none cursor-pointer",
                     theme === 'dark'
-                      ? 'bg-gray-900/60 border border-gray-700/50 text-white focus:border-blue-500/50 focus:ring-blue-500/20'
-                      : 'bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500/20'
+                      ? 'bg-gray-900/60 border border-gray-700/50 text-white focus:border-blue-500/50 focus:ring-blue-500/20 hover:border-blue-500/30'
+                      : 'bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500/20 hover:border-blue-400'
                   )}
                   style={{ fontFamily: "'Inter', sans-serif" }}
                   value={currentSource.name}
                   onChange={(e) => {
                     const index = dataSources.findIndex(ds => ds.name === e.target.value)
-                    if (index !== -1 && dataSources[index].enabled) {
+                    if (index !== -1) {
                       setSelectedConnector(index)
                     }
                   }}
-                  initial={{ borderColor: 'rgba(107, 114, 128, 0.5)' }}
-                  animate={{ 
-                    borderColor: currentSource.color ? `${currentSource.color}50` : 'rgba(107, 114, 128, 0.5)'
-                  }}
-                  transition={{ duration: 0.3 }}
                 >
                   {dataSources.map((source, idx) => (
                     <option 
@@ -205,23 +191,19 @@ export function ConnectionStatus() {
                       value={source.name} 
                       disabled={!source.enabled}
                       className={cn(
-                        source.enabled ? '' : 'opacity-50 cursor-not-allowed',
+                        source.enabled ? '' : 'opacity-50',
                         theme === 'dark' ? 'bg-gray-900' : 'bg-white'
                       )}
                     >
                       {source.name} {!source.enabled && '(Coming Soon)'}
                     </option>
                   ))}
-                </motion.select>
-                <motion.div 
-                  className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
-                  animate={{ rotate: [0, 180, 0] }}
-                  transition={{ duration: 0.5, delay: 0.2, repeat: Infinity, repeatDelay: 2.5 }}
-                >
+                </select>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
                   <svg className={cn("w-4 h-4", theme === 'dark' ? 'text-gray-400' : 'text-gray-500')} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                </motion.div>
+                </div>
               </div>
               
               {/* Selected connector preview */}
@@ -229,42 +211,32 @@ export function ConnectionStatus() {
                 {currentSource && (
                   <motion.div
                     key={selectedConnector}
-                    initial={{ opacity: 0, y: 10, scale: 0.95, borderColor: 'rgba(107, 114, 128, 0.3)' }}
-                    animate={{ opacity: 1, y: 0, scale: 1, borderColor: `${currentSource.color}30` }}
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
                     className={cn(
                       "mt-2 p-3 rounded-lg border flex items-center gap-2",
-                      theme === 'dark' ? 'bg-gray-800/30' : 'bg-gray-50'
+                      theme === 'dark' ? 'bg-gray-800/30 border-gray-700/50' : 'bg-gray-50 border-gray-200'
                     )}
                     style={{ 
-                      backgroundColor: theme === 'dark' ? `${currentSource.color}15` : `${currentSource.color}08`
+                      backgroundColor: theme === 'dark' ? `${currentSource.color}15` : `${currentSource.color}08`,
+                      borderColor: `${currentSource.color}30`
                     }}
                   >
-                    <motion.div 
+                    <div 
                       className="p-2 rounded-lg"
                       style={{ backgroundColor: `${currentSource.color}20` }}
-                      animate={{ 
-                        scale: [1, 1.1, 1],
-                        rotate: [0, 5, -5, 0]
-                      }}
-                      transition={{ 
-                        duration: 0.5,
-                        delay: 0.1
-                      }}
                     >
                       <SourceIcon className="w-5 h-5" style={{ color: currentSource.color }} />
-                    </motion.div>
+                    </div>
                     <div className="flex-1">
-                      <motion.p 
+                      <p 
                         className={cn(
                           "text-sm font-semibold",
                           theme === 'dark' ? 'text-white' : 'text-gray-900'
                         )} 
                         style={{ fontFamily: "'Inter', sans-serif" }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
                       >
                         {currentSource.name === 'GA4' ? 'Google Analytics 4' : 
                          currentSource.name === 'Facebook' ? 'Facebook Ads' :
@@ -273,45 +245,21 @@ export function ConnectionStatus() {
                          currentSource.name === 'Shopify' ? 'Shopify Store' :
                          currentSource.name === 'Email' ? 'Email Marketing' :
                          currentSource.name}
-                      </motion.p>
-                      <motion.p 
+                      </p>
+                      <p 
                         className={cn(
                           "text-xs",
                           theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                         )} 
                         style={{ fontFamily: "'Inter', sans-serif" }}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
                       >
                         {currentSource.enabled ? 'Ready to connect' : 'Coming soon'}
-                      </motion.p>
+                      </p>
                     </div>
                     {currentSource.enabled ? (
-                      <motion.div 
-                        className="w-2 h-2 bg-green-500 rounded-full"
-                        animate={{ 
-                          scale: [1, 1.2, 1],
-                          opacity: [1, 0.7, 1]
-                        }}
-                        transition={{ 
-                          duration: 1.5,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
+                      <div className="w-2 h-2 bg-green-500 rounded-full" />
                     ) : (
-                      <motion.div 
-                        className="w-2 h-2 bg-gray-500 rounded-full"
-                        animate={{ 
-                          opacity: [0.5, 1, 0.5]
-                        }}
-                        transition={{ 
-                          duration: 1.5,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
+                      <div className="w-2 h-2 bg-gray-500 rounded-full opacity-50" />
                     )}
                   </motion.div>
                 )}
@@ -320,17 +268,22 @@ export function ConnectionStatus() {
 
             {/* Connect Button */}
             <div className="mt-6">
-              <Link href="/dashboard/connect-ga4">
+              {currentSource.enabled && currentSource.name === 'GA4' ? (
+                <Link href="/dashboard/connect-ga4" className="block">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Connect Google Analytics 4
+                  </Button>
+                </Link>
+              ) : (
                 <Button 
-                  className={cn(
-                    "w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300",
-                    !currentSource.enabled && 'opacity-50 cursor-not-allowed'
-                  )}
-                  disabled={!currentSource.enabled}
+                  className="w-full bg-gray-500/50 text-gray-400 cursor-not-allowed shadow-lg"
+                  disabled
                 >
-                  {currentSource.enabled ? 'Connect ' + currentSource.name : currentSource.name + ' (Coming Soon)'}
+                  {currentSource.name} (Coming Soon)
                 </Button>
-              </Link>
+              )}
             </div>
           </div>
         </div>
