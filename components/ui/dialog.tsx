@@ -16,12 +16,36 @@ const Dialog = ({ open, onOpenChange, children }: DialogProps) => {
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4" 
+      style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-200"
         onClick={() => onOpenChange(false)}
+        style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999 }}
       />
-      <div className="relative z-50 w-full transform transition-all duration-200 scale-100 opacity-100">
+      <div 
+        className="relative z-[10000] w-full transform transition-all duration-200 scale-100 opacity-100"
+        style={{ 
+          position: 'relative',
+          zIndex: 10000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: '100%'
+        }}
+      >
         {children}
       </div>
     </div>
@@ -34,9 +58,10 @@ const DialogContent = React.forwardRef<HTMLDivElement, DialogContentProps>(
       <div
         ref={ref}
         className={cn(
-          "relative bg-white rounded-xl shadow-2xl border border-gray-200 max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col",
+          "relative bg-white rounded-xl shadow-2xl border border-gray-200 max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col mx-auto",
           className
         )}
+        style={{ margin: '0 auto' }}
         {...props}
       >
         {children}
