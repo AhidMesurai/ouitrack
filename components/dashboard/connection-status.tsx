@@ -344,13 +344,13 @@ export function ConnectionStatus() {
 
           {/* Connect New Button */}
           <div className="mb-4">
-            <a href="/dashboard/connect-ga4">
+            <Link href="/dashboard/connect-ga4">
               <Button 
                 className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Connect New GA4 Account
               </Button>
-            </a>
+            </Link>
           </div>
 
           {/* Connected Properties List */}
