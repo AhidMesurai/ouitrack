@@ -51,7 +51,9 @@ export default function ConnectGA4Page() {
     
     // Build OAuth URL
     const clientId = process.env.NEXT_PUBLIC_GA4_CLIENT_ID
-    const redirectUri = process.env.NEXT_PUBLIC_GA4_REDIRECT_URI || `${window.location.origin}/api/ga4/callback`
+    // Use NEXTAUTH_URL if available (production), otherwise use current origin
+    const baseUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL || window.location.origin
+    const redirectUri = process.env.NEXT_PUBLIC_GA4_REDIRECT_URI || `${baseUrl}/api/ga4/callback`
     const scopes = [
       'https://www.googleapis.com/auth/analytics.readonly',
       'https://www.googleapis.com/auth/analytics.manage.users.readonly', // For Admin API

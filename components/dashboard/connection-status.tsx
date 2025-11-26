@@ -295,89 +295,130 @@ export function ConnectionStatus() {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.6, type: 'spring' }}
+      className="w-full"
     >
-      <Card className={cn(
-        "relative group overflow-hidden",
-        theme === 'dark' 
-          ? 'bg-gradient-to-br from-gray-900/80 via-gray-900/60 to-gray-900/80 border-gray-800/50 backdrop-blur-xl shadow-2xl' 
-          : 'bg-white/95 backdrop-blur-sm border-gray-200 shadow-lg'
-      )}>
+      <div className="relative group">
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 rounded-xl blur-md opacity-20 group-hover:opacity-30 transition duration-1000" />
         <div className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500",
-          theme === 'dark' 
-            ? 'bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10' 
-            : 'bg-gradient-to-r from-blue-50/50 via-purple-50/50 to-pink-50/50'
-        )} />
-        <CardHeader className="relative z-10">
-          <CardTitle className={cn(theme === 'dark' ? 'text-white' : 'text-gray-900')}>
-            GA4 Connections
-          </CardTitle>
-          <CardDescription className={cn(theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
-            Your connected Google Analytics properties
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="relative z-10">
-          <div className="space-y-4">
+          "relative rounded-xl p-6 border shadow-lg backdrop-blur-xl",
+          theme === 'dark'
+            ? 'bg-gradient-to-br from-gray-900/95 via-purple-900/20 to-blue-900/20 border-purple-500/30'
+            : 'bg-white border-gray-200'
+        )}>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <div className={cn(
+                  "absolute inset-0 rounded-lg blur-sm opacity-50",
+                  theme === 'dark' ? 'bg-gradient-to-br from-purple-500 to-blue-500' : 'bg-gradient-to-br from-blue-400 to-purple-400'
+                )} />
+                <div className={cn(
+                  "relative w-10 h-10 rounded-lg flex items-center justify-center shadow-sm",
+                  theme === 'dark' ? 'bg-gradient-to-br from-purple-500 to-blue-500' : 'bg-gradient-to-br from-blue-500 to-purple-500'
+                )}>
+                  <BarChart3 className="w-5 h-5 text-white" />
+                </div>
+              </div>
+              <div>
+                <h4 className={cn(
+                  "text-base font-bold",
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                  GA4 Connections
+                </h4>
+                <p className={cn(
+                  "text-xs flex items-center gap-1",
+                  theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <span className={cn(
+                    "w-1.5 h-1.5 rounded-full",
+                    theme === 'dark' ? 'bg-green-500' : 'bg-green-600'
+                  )} />
+                  Your connected Google Analytics properties
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Connected Properties List */}
+          <div className="space-y-3">
             {connections.map((connection, index) => (
               <motion.div
                 key={connection.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, x: 5 }}
+                whileHover={{ scale: 1.02, y: -2 }}
                 className={cn(
-                  "flex items-center justify-between p-4 rounded-lg transition-all duration-300 cursor-pointer",
+                  "p-4 rounded-lg border transition-all duration-300 cursor-pointer",
                   theme === 'dark'
-                    ? 'bg-gray-800/50 border border-gray-700/50 hover:bg-gray-800/70 hover:border-gray-600'
-                    : 'bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300'
+                    ? 'bg-gray-800/30 border-gray-700/50 hover:bg-gray-800/50 hover:border-blue-500/30'
+                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-blue-300'
                 )}
               >
-              <div className="flex items-center space-x-3">
-                {connection.is_active ? (
-                  <CheckCircle2 className="h-5 w-5 text-green-500" />
-                ) : (
-                  <XCircle className="h-5 w-5 text-red-500" />
-                )}
-                <div>
-                  <p className={cn(
-                    "font-medium",
-                    theme === 'dark' ? 'text-white' : 'text-gray-900'
-                  )}>
-                    {connection.property_name}
-                  </p>
-                  <p className={cn(
-                    "text-sm",
-                    theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-                  )}>
-                    {connection.property_id}
-                  </p>
-                  {connection.last_synced_at && (
-                    <p className={cn(
-                      "text-xs",
-                      theme === 'dark' ? 'text-gray-500' : 'text-gray-400'
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className={cn(
+                      "p-2 rounded-lg",
+                      theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'
                     )}>
-                      Last synced: {new Date(connection.last_synced_at).toLocaleString()}
-                    </p>
-                  )}
+                      <BarChart3 className={cn(
+                        "w-5 h-5",
+                        theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
+                      )} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={cn(
+                        "font-semibold text-sm mb-1 truncate",
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {connection.property_name}
+                      </p>
+                      <p className={cn(
+                        "text-xs mb-1",
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                      )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {connection.property_id}
+                      </p>
+                      {connection.last_synced_at && (
+                        <p className={cn(
+                          "text-xs",
+                          theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
+                        )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                          Last synced: {new Date(connection.last_synced_at).toLocaleString()}
+                        </p>
+                      )}
+                    </div>
+                    {connection.is_active ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <span className={cn(
+                          "text-xs font-medium",
+                          theme === 'dark' ? 'text-green-400' : 'text-green-600'
+                        )}>
+                          Active
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full" />
+                        <span className={cn(
+                          "text-xs font-medium",
+                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                        )}>
+                          Inactive
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm"
-                className={cn(
-                  theme === 'dark'
-                    ? 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white'
-                    : ''
-                )}
-              >
-                Manage
-              </Button>
               </motion.div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </motion.div>
   )
 }

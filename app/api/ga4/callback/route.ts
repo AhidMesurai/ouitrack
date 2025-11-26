@@ -6,7 +6,8 @@ export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   const error = requestUrl.searchParams.get('error')
-  const origin = requestUrl.origin
+  // Use NEXTAUTH_URL for production domain, fallback to request origin
+  const origin = process.env.NEXTAUTH_URL || requestUrl.origin
 
   // Check for OAuth errors
   if (error) {
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
         code,
         client_id: process.env.NEXT_PUBLIC_GA4_CLIENT_ID!,
         client_secret: process.env.GA4_CLIENT_SECRET!,
-        redirect_uri: process.env.NEXT_PUBLIC_GA4_REDIRECT_URI || `${origin}/api/ga4/callback`,
+        redirect_uri: process.env.NEXT_PUBLIC_GA4_REDIRECT_URI || `${process.env.NEXTAUTH_URL || origin}/api/ga4/callback`,
         grant_type: 'authorization_code',
       }),
     })
