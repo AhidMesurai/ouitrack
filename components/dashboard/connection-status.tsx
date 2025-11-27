@@ -49,8 +49,6 @@ export function ConnectionStatus() {
           // Handle both old format (array) and new format ({ properties: [...] })
           if (Array.isArray(data)) {
             setConnections(data)
-          } else if (data.connections && Array.isArray(data.connections)) {
-            setConnections(data.connections)
           } else if (data.properties && Array.isArray(data.properties)) {
             // Convert properties format to connections format
             const formattedConnections = data.properties.map((prop: any) => ({
