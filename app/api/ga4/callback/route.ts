@@ -205,6 +205,15 @@ export async function GET(request: NextRequest) {
     }
 
     console.log(`Successfully connected ${connectedCount} out of ${allProperties.length} properties`)
+    
+    // Verify connections were saved
+    const { data: verifyConnections } = await supabase
+      .from('ga4_connections')
+      .select('property_id, property_name, is_active')
+      .eq('user_id', user.id)
+      .eq('is_active', true)
+    
+    console.log(`Verification: Found ${verifyConnections?.length || 0} active connections in database after save`)
 
     // Success! Redirect to dashboard
     return NextResponse.redirect(`${origin}/dashboard/connect-ga4?success=true`)
