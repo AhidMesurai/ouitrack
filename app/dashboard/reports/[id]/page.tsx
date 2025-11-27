@@ -52,6 +52,7 @@ export default function ReportViewerPage() {
         const response = await fetch('/api/ga4/properties')
         if (response.ok) {
           const data = await response.json()
+          console.log('Properties API response:', data)
           // Handle both old format (array) and new format ({ properties: [...] })
           let props = []
           if (Array.isArray(data)) {
@@ -59,10 +60,14 @@ export default function ReportViewerPage() {
           } else if (data.properties && Array.isArray(data.properties)) {
             props = data.properties
           }
+          console.log(`Setting ${props.length} properties:`, props)
           setProperties(props)
           if (props.length > 0 && !selectedPropertyId) {
             setSelectedPropertyId(props[0].id)
           }
+        } else {
+          const errorData = await response.json().catch(() => ({}))
+          console.error('Error fetching properties:', response.status, errorData)
         }
       } catch (error) {
         console.error('Error fetching properties:', error)

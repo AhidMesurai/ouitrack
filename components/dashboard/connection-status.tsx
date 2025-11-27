@@ -46,6 +46,7 @@ export function ConnectionStatus() {
         const response = await fetch('/api/ga4/properties')
         if (response.ok) {
           const data = await response.json()
+          console.log('Connection Status - Properties API response:', data)
           // Handle both old format (array) and new format ({ properties: [...] })
           if (Array.isArray(data)) {
             setConnections(data)
@@ -58,13 +59,18 @@ export function ConnectionStatus() {
               is_active: true,
               last_synced_at: prop.connectedAt || null,
             }))
+            console.log(`Connection Status - Setting ${formattedConnections.length} connections:`, formattedConnections)
             setConnections(formattedConnections)
           } else {
+            console.log('Connection Status - No properties found, setting empty array')
             setConnections([])
           }
+        } else {
+          const errorData = await response.json().catch(() => ({}))
+          console.error('Connection Status - Error response:', response.status, errorData)
         }
       } catch (error) {
-        console.error('Error fetching connections:', error)
+        console.error('Connection Status - Error fetching connections:', error)
       } finally {
         setLoading(false)
       }

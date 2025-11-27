@@ -19,8 +19,11 @@ export async function GET() {
     .order('created_at', { ascending: false })
 
   if (error) {
+    console.error('Error fetching GA4 connections:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  console.log(`Found ${connections?.length || 0} GA4 connections for user ${user.id}`)
 
   // Format properties for response
   const properties = (connections || []).map(conn => ({
@@ -28,6 +31,8 @@ export async function GET() {
     name: conn.property_name,
     connectedAt: conn.created_at || conn.connected_at,
   }))
+
+  console.log(`Returning ${properties.length} properties:`, properties.map(p => p.name))
 
   return NextResponse.json({ properties })
 }
