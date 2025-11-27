@@ -8,12 +8,18 @@ import { useAuth } from '@/hooks/use-auth'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { GA4ConnectionModal } from '@/components/dashboard/ga4-connection-modal'
+import { useEffect, useState, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
 
-export default function DashboardPage() {
+function DashboardContent() {
   const { user } = useAuth()
+  const searchParams = useSearchParams()
+  const [modalOpen, setModalOpen] = useState(false)
+  
   // Use try-catch to handle SSR case where theme might not be available
   let theme: 'light' | 'dark' = 'dark'
   try {
@@ -23,6 +29,16 @@ export default function DashboardPage() {
     // During SSR, use default theme
     theme = 'dark'
   }
+
+  // Check if we're returning from OAuth
+  useEffect(() => {
+    const sessionKey = searchParams.get('ga4_session')
+    if (sessionKey) {
+      setModalOpen(true)
+      // Clean URL
+      window.history.replaceState({}, '', '/dashboard')
+    }
+  }, [searchParams])
 
   return (
     <ProtectedRoute>
@@ -58,8 +74,22 @@ export default function DashboardPage() {
             <ReportGrid />
           </div>
         </div>
+        
+        {/* GA4 Connection Modal */}
+        <GA4ConnectionModal 
+          open={modalOpen} 
+          onOpenChange={setModalOpen}
+        />
       </DashboardLayout>
     </ProtectedRoute>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
   )
 }
 

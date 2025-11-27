@@ -154,9 +154,10 @@ export async function GET(request: NextRequest) {
       expiresIn: expires_in,
     }
 
-    // Set cookie directly
+    // Check if modal should be opened (from sessionStorage)
+    // Redirect back to dashboard with session key
     const response = NextResponse.redirect(
-      `${origin}/dashboard/connect-ga4/select-properties?session=${sessionKey}&email=${encodeURIComponent(googleAccountEmail)}&count=${allProperties.length}`
+      `${origin}/dashboard?ga4_session=${sessionKey}&email=${encodeURIComponent(googleAccountEmail)}&count=${allProperties.length}`
     )
     
     // Store session data in httpOnly cookie

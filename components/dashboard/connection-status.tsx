@@ -3,11 +3,12 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2, Trash2, Power, PowerOff, Loader2 } from 'lucide-react'
+import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2, Trash2, Power, PowerOff, Loader2, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
+import { GA4ConnectionModal } from './ga4-connection-modal'
 
 interface GA4Connection {
   id: string
@@ -22,6 +23,7 @@ export function ConnectionStatus() {
   const [connections, setConnections] = useState<GA4Connection[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedConnector, setSelectedConnector] = useState(0) // Default to GA4 (index 0)
+  const [modalOpen, setModalOpen] = useState(false)
   // Use try-catch to handle SSR case where theme might not be available
   let theme: 'light' | 'dark' = 'dark'
   try {
@@ -411,30 +413,9 @@ export function ConnectionStatus() {
             </Link>
           </div>
 
-          {/* Connected Properties List - Grouped by Google Account */}
-          <div className="space-y-4">
-            {(() => {
-              // Group connections by Google account email
-              const grouped = connections.reduce((acc, conn) => {
-                const email = conn.google_account_email || 'Unknown Account'
-                if (!acc[email]) {
-                  acc[email] = []
-                }
-                acc[email].push(conn)
-                return acc
-              }, {} as Record<string, typeof connections>)
-
-              return Object.entries(grouped).map(([email, conns], groupIndex) => (
-                <div key={email} className="space-y-2">
-                  {Object.keys(grouped).length > 1 && (
-                    <p className={cn(
-                      "text-xs font-medium mb-2",
-                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                    )}>
-                      {email}
-                    </p>
-                  )}
-                  {conns.map((connection, index) => (
+          {/* Connected Properties List */}
+          <div className="space-y-3">
+            {connections.map((connection, index) => (
                     <motion.div
                       key={connection.id}
                       initial={{ opacity: 0, y: 10 }}

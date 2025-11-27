@@ -52,7 +52,22 @@ export default function ReportViewerPage() {
         const response = await fetch('/api/ga4/properties')
         if (response.ok) {
           const data = await response.json()
-          const props = data.properties || []
+          // Handle both old format (array) and new format ({ properties: [...] })
+          let props = []
+          if (Array.isArray(data)) {
+            props = data
+          } else if (data.properties && Array.isArray(data.properties)) {
+            props = data.properties
+          } else if (data.connections && Array.isArray(data.connections)) {
+            // Convert connections to properties format
+            props = data.connections
+              .filter((conn: any) => conn.is_active)
+              .map((conn: any) => ({
+                id: conn.property_id,
+                name: conn.property_name,
+                connectedAt: conn.created_at || conn.connected_at,
+              }))
+          }
           setProperties(props)
           if (props.length > 0 && !selectedPropertyId) {
             setSelectedPropertyId(props[0].id)
