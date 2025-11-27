@@ -16,7 +16,6 @@ interface GA4Connection {
   property_name: string
   is_active: boolean
   last_synced_at: string | null
-  google_account_email?: string | null
 }
 
 export function ConnectionStatus() {
@@ -51,11 +50,11 @@ export function ConnectionStatus() {
       const response = await fetch('/api/ga4/properties')
       if (response.ok) {
         const data = await response.json()
-        // Use full connections data if available, otherwise fall back to properties
-        if (data.connections && Array.isArray(data.connections)) {
-          setConnections(data.connections)
-        } else if (Array.isArray(data)) {
+        // Handle both old format (array) and new format ({ properties: [...] })
+        if (Array.isArray(data)) {
           setConnections(data)
+        } else if (data.connections && Array.isArray(data.connections)) {
+          setConnections(data.connections)
         } else if (data.properties && Array.isArray(data.properties)) {
           // Convert properties format to connections format
           const formattedConnections = data.properties.map((prop: any) => ({

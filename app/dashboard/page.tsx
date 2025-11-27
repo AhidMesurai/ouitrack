@@ -32,8 +32,8 @@ function DashboardContent() {
 
   // Check if we're returning from OAuth
   useEffect(() => {
-    const sessionKey = searchParams.get('ga4_session')
-    if (sessionKey) {
+    const connected = searchParams.get('ga4_connected')
+    if (connected === 'true') {
       setModalOpen(true)
       // Clean URL
       window.history.replaceState({}, '', '/dashboard')

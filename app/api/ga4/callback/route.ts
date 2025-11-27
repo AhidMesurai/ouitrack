@@ -54,19 +54,6 @@ export async function GET(request: NextRequest) {
     const tokens = await tokenResponse.json()
     const { access_token, refresh_token, expires_in } = tokens
 
-    // Get Google user email
-    const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: {
-        'Authorization': `Bearer ${access_token}`,
-      },
-    })
-
-    let googleAccountEmail = 'unknown'
-    if (userInfoResponse.ok) {
-      const userInfo = await userInfoResponse.json()
-      googleAccountEmail = userInfo.email || 'unknown'
-    }
-
     // Get user's GA4 properties
     const propertiesResponse = await fetch(
       'https://analyticsadmin.googleapis.com/v1beta/accountSummaries',
@@ -120,56 +107,74 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(`${origin}/dashboard/connect-ga4?error=no_properties_found`)
     }
     
-    console.log(`Found ${allProperties.length} properties for selection`)
+    console.log(`Found ${allProperties.length} properties to connect`)
 
-    // Store tokens temporarily in session/cookies for property selection
-    // In production, use encrypted session storage or a temporary table
-    // For now, we'll pass data via URL params (not ideal for tokens, but works for demo)
-    // Better approach: Store in encrypted session or temporary table with expiry
-    
-    // Redirect to property selection page with encrypted data
-    // For security, we should encrypt the tokens or use a session
-    // For now, using a temporary approach with base64 encoding (not secure for production!)
-    const tempData = {
-      properties: allProperties,
-      googleAccountEmail,
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      expiresIn: expires_in,
+    // Store all properties in database
+    const expiresAt = new Date(Date.now() + (expires_in * 1000)).toISOString()
+    let connectedCount = 0
+    let errors: string[] = []
+
+    for (const prop of allProperties) {
+      // Check if connection already exists
+      const { data: existingConnection } = await supabase
+        .from('ga4_connections')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('property_id', prop.property)
+        .single()
+
+      if (existingConnection) {
+        // Update existing connection
+        const { error } = await supabase
+          .from('ga4_connections')
+          .update({
+            property_name: prop.displayName,
+            access_token: access_token, // In production, encrypt this!
+            refresh_token: refresh_token, // In production, encrypt this!
+            token_expires_at: expiresAt,
+            is_active: true,
+            last_synced_at: new Date().toISOString(),
+          })
+          .eq('id', existingConnection.id)
+        
+        if (error) {
+          console.error(`Error updating property ${prop.displayName}:`, error)
+          errors.push(`${prop.displayName}: ${error.message}`)
+        } else {
+          connectedCount++
+        }
+      } else {
+        // Insert new connection
+        const { error } = await supabase
+          .from('ga4_connections')
+          .insert({
+            user_id: user.id,
+            property_id: prop.property,
+            property_name: prop.displayName,
+            access_token: access_token, // In production, encrypt this!
+            refresh_token: refresh_token, // In production, encrypt this!
+            token_expires_at: expiresAt,
+            is_active: true,
+          })
+        
+        if (error) {
+          console.error(`Error inserting property ${prop.displayName}:`, error)
+          errors.push(`${prop.displayName}: ${error.message}`)
+        } else {
+          connectedCount++
+        }
+      }
     }
-    
-    // Store in session storage via API route that sets secure httpOnly cookies
-    // For now, redirect to selection page which will fetch from a temporary endpoint
-    // We'll create a secure session-based approach
-    
-    // Create a temporary session to store tokens securely
-    const sessionKey = `ga4_connect_${Date.now()}_${Math.random().toString(36).substring(7)}`
-    
-    // Store session data in cookie via internal API call
-    const sessionData = {
-      properties: allProperties,
-      googleAccountEmail,
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      expiresIn: expires_in,
+
+    if (connectedCount === 0) {
+      console.error('Failed to connect any properties:', errors)
+      return NextResponse.redirect(`${origin}/dashboard/connect-ga4?error=database_error`)
     }
 
-    // Check if modal should be opened (from sessionStorage)
-    // Redirect back to dashboard with session key
-    const response = NextResponse.redirect(
-      `${origin}/dashboard?ga4_session=${sessionKey}&email=${encodeURIComponent(googleAccountEmail)}&count=${allProperties.length}`
-    )
-    
-    // Store session data in httpOnly cookie
-    response.cookies.set(`ga4_session_${sessionKey}`, JSON.stringify(sessionData), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 600, // 10 minutes
-      path: '/',
-    })
+    console.log(`Successfully connected ${connectedCount} out of ${allProperties.length} properties`)
 
-    return response
+    // Success! Redirect to dashboard with modal open
+    return NextResponse.redirect(`${origin}/dashboard?ga4_connected=true`)
   } catch (err: any) {
     console.error('Unexpected error in GA4 callback:', err)
     return NextResponse.redirect(`${origin}/dashboard/connect-ga4?error=unexpected`)
