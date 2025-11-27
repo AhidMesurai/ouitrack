@@ -262,7 +262,7 @@ function ConnectionModalContent({ open, onOpenChange, onSuccess }: GA4Connection
                   "text-sm",
                   theme === 'dark' ? 'text-blue-300' : 'text-blue-800'
                 )}>
-                  Connect your Google Analytics 4 account to start generating reports. You'll be able to select which properties to connect.
+                  Connect your Google Analytics 4 account to start generating reports. You&apos;ll be able to select which properties to connect.
                 </p>
               </div>
               <Button
