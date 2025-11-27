@@ -58,6 +58,13 @@ export async function GET(
     const shouldRefresh = !tokenExpiresAt || tokenExpiresAt < new Date()
     
     if (shouldRefresh) {
+      if (!connection.refresh_token) {
+        return NextResponse.json(
+          { error: 'No refresh token available. Please reconnect your GA4 account.' },
+          { status: 401 }
+        )
+      }
+      
       try {
         console.log('Refreshing access token...')
         accessToken = await refreshAccessToken(connection.refresh_token)

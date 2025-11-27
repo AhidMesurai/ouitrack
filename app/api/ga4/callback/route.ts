@@ -54,6 +54,12 @@ export async function GET(request: NextRequest) {
     const tokens = await tokenResponse.json()
     const { access_token, refresh_token, expires_in } = tokens
 
+    // Note: Google only returns refresh_token on first authorization or when prompt=consent is used
+    // If refresh_token is missing, we'll try to reuse existing one from database
+    if (!refresh_token) {
+      console.log('No refresh token in response. Will try to reuse existing refresh token from database if available.')
+    }
+
     // Get user's GA4 properties
     const propertiesResponse = await fetch(
       'https://analyticsadmin.googleapis.com/v1beta/accountSummaries',
@@ -125,16 +131,23 @@ export async function GET(request: NextRequest) {
 
       if (existingConnection) {
         // Update existing connection
+        // Only update refresh_token if we got a new one (it's not always returned)
+        const updateData: any = {
+          property_name: prop.displayName,
+          access_token: access_token, // In production, encrypt this!
+          token_expires_at: expiresAt,
+          is_active: true,
+          last_synced_at: new Date().toISOString(),
+        }
+        
+        // Only update refresh_token if we received a new one
+        if (refresh_token) {
+          updateData.refresh_token = refresh_token
+        }
+        
         const { error } = await supabase
           .from('ga4_connections')
-          .update({
-            property_name: prop.displayName,
-            access_token: access_token, // In production, encrypt this!
-            refresh_token: refresh_token, // In production, encrypt this!
-            token_expires_at: expiresAt,
-            is_active: true,
-            last_synced_at: new Date().toISOString(),
-          })
+          .update(updateData)
           .eq('id', existingConnection.id)
         
         if (error) {
@@ -145,6 +158,26 @@ export async function GET(request: NextRequest) {
         }
       } else {
         // Insert new connection
+        // If no refresh_token, try to get one from existing connections for this user
+        let finalRefreshToken = refresh_token
+        if (!finalRefreshToken) {
+          const { data: existingConn } = await supabase
+            .from('ga4_connections')
+            .select('refresh_token')
+            .eq('user_id', user.id)
+            .not('refresh_token', 'is', null)
+            .limit(1)
+            .single()
+          
+          if (existingConn?.refresh_token) {
+            finalRefreshToken = existingConn.refresh_token
+          }
+        }
+        
+        if (!finalRefreshToken) {
+          console.warn(`Warning: No refresh token available for property ${prop.displayName}. User will need to reconnect.`)
+        }
+        
         const { error } = await supabase
           .from('ga4_connections')
           .insert({
@@ -152,7 +185,7 @@ export async function GET(request: NextRequest) {
             property_id: prop.property,
             property_name: prop.displayName,
             access_token: access_token, // In production, encrypt this!
-            refresh_token: refresh_token, // In production, encrypt this!
+            refresh_token: finalRefreshToken || null, // In production, encrypt this!
             token_expires_at: expiresAt,
             is_active: true,
           })

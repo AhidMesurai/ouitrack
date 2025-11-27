@@ -72,13 +72,18 @@ export default function ConnectGA4Page() {
       'https://www.googleapis.com/auth/userinfo.email',
     ].join(' ')
     
+    // Check if user already has connections - if yes, use prompt=select_account instead of consent
+    // This prevents asking for consent every time, but still allows account selection
+    // Use prompt=consent only if we need to force a new refresh token
+    const prompt = connected ? 'select_account' : 'consent'
+    
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
       `client_id=${clientId}&` +
       `redirect_uri=${encodeURIComponent(redirectUri)}&` +
       `response_type=code&` +
       `scope=${encodeURIComponent(scopes)}&` +
       `access_type=offline&` +
-      `prompt=consent`
+      `prompt=${prompt}`
 
     // Redirect to Google OAuth
     window.location.href = authUrl
