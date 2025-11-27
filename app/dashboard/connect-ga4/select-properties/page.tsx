@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
 import { BarChart3, CheckCircle2, Loader2 } from 'lucide-react'
-import { useState, useEffect, useSearchParams, useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 // Force dynamic rendering
