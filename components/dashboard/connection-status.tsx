@@ -3,12 +3,11 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2, Trash2, Power, PowerOff, Loader2, Settings } from 'lucide-react'
+import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2 } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
-import { GA4ConnectionModal } from './ga4-connection-modal'
 
 interface GA4Connection {
   id: string
@@ -22,7 +21,6 @@ export function ConnectionStatus() {
   const [connections, setConnections] = useState<GA4Connection[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedConnector, setSelectedConnector] = useState(0) // Default to GA4 (index 0)
-  const [modalOpen, setModalOpen] = useState(false)
   // Use try-catch to handle SSR case where theme might not be available
   let theme: 'light' | 'dark' = 'dark'
   try {
@@ -42,95 +40,40 @@ export function ConnectionStatus() {
     { icon: Mail, name: 'Email', color: '#eab308', enabled: false },
   ]
 
-  const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [togglingId, setTogglingId] = useState<string | null>(null)
-
-  const fetchConnections = async () => {
-    try {
-      const response = await fetch('/api/ga4/properties')
-      if (response.ok) {
-        const data = await response.json()
-        // Handle both old format (array) and new format ({ properties: [...] })
-        if (Array.isArray(data)) {
-          setConnections(data)
-        } else if (data.connections && Array.isArray(data.connections)) {
-          setConnections(data.connections)
-        } else if (data.properties && Array.isArray(data.properties)) {
-          // Convert properties format to connections format
-          const formattedConnections = data.properties.map((prop: any) => ({
-            id: prop.id,
-            property_id: prop.id,
-            property_name: prop.name,
-            is_active: true,
-            last_synced_at: prop.connectedAt || null,
-          }))
-          setConnections(formattedConnections)
-        } else {
-          setConnections([])
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching connections:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const fetchConnections = async () => {
+      try {
+        const response = await fetch('/api/ga4/properties')
+        if (response.ok) {
+          const data = await response.json()
+          // Handle both old format (array) and new format ({ properties: [...] })
+          if (Array.isArray(data)) {
+            setConnections(data)
+          } else if (data.connections && Array.isArray(data.connections)) {
+            setConnections(data.connections)
+          } else if (data.properties && Array.isArray(data.properties)) {
+            // Convert properties format to connections format
+            const formattedConnections = data.properties.map((prop: any) => ({
+              id: prop.id,
+              property_id: prop.id,
+              property_name: prop.name,
+              is_active: true,
+              last_synced_at: prop.connectedAt || null,
+            }))
+            setConnections(formattedConnections)
+          } else {
+            setConnections([])
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching connections:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchConnections()
   }, [])
-
-  const handleDelete = async (connectionId: string) => {
-    if (!confirm('Are you sure you want to delete this connection? This action cannot be undone.')) {
-      return
-    }
-
-    setDeletingId(connectionId)
-    try {
-      const response = await fetch(`/api/ga4/connections/${connectionId}`, {
-        method: 'DELETE',
-      })
-
-      if (response.ok) {
-        // Refresh connections
-        await fetchConnections()
-      } else {
-        const error = await response.json()
-        alert(`Failed to delete connection: ${error.error}`)
-      }
-    } catch (error: any) {
-      console.error('Error deleting connection:', error)
-      alert(`Failed to delete connection: ${error.message}`)
-    } finally {
-      setDeletingId(null)
-    }
-  }
-
-  const handleToggleActive = async (connectionId: string, currentStatus: boolean) => {
-    setTogglingId(connectionId)
-    try {
-      const response = await fetch(`/api/ga4/connections/${connectionId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ is_active: !currentStatus }),
-      })
-
-      if (response.ok) {
-        // Refresh connections
-        await fetchConnections()
-      } else {
-        const error = await response.json()
-        alert(`Failed to update connection: ${error.error}`)
-      }
-    } catch (error: any) {
-      console.error('Error updating connection:', error)
-      alert(`Failed to update connection: ${error.message}`)
-    } finally {
-      setTogglingId(null)
-    }
-  }
 
   if (loading) {
     return (
@@ -471,10 +414,10 @@ export function ConnectionStatus() {
                           Last synced: {new Date(connection.last_synced_at).toLocaleString()}
                         </p>
                       )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
             ))}
           </div>
         </div>

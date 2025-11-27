@@ -173,8 +173,8 @@ export async function GET(request: NextRequest) {
 
     console.log(`Successfully connected ${connectedCount} out of ${allProperties.length} properties`)
 
-    // Success! Redirect to dashboard with modal open
-    return NextResponse.redirect(`${origin}/dashboard?ga4_connected=true`)
+    // Success! Redirect to dashboard
+    return NextResponse.redirect(`${origin}/dashboard/connect-ga4?success=true`)
   } catch (err: any) {
     console.error('Unexpected error in GA4 callback:', err)
     return NextResponse.redirect(`${origin}/dashboard/connect-ga4?error=unexpected`)

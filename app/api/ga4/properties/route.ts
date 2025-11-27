@@ -29,10 +29,6 @@ export async function GET() {
     connectedAt: conn.created_at || conn.connected_at,
   }))
 
-  // Also return full connections for management UI
-  return NextResponse.json({ 
-    properties,
-    connections: connections || []
-  })
+  return NextResponse.json({ properties })
 }
 

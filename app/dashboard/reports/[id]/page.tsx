@@ -58,15 +58,6 @@ export default function ReportViewerPage() {
             props = data
           } else if (data.properties && Array.isArray(data.properties)) {
             props = data.properties
-          } else if (data.connections && Array.isArray(data.connections)) {
-            // Convert connections to properties format
-            props = data.connections
-              .filter((conn: any) => conn.is_active)
-              .map((conn: any) => ({
-                id: conn.property_id,
-                name: conn.property_name,
-                connectedAt: conn.created_at || conn.connected_at,
-              }))
           }
           setProperties(props)
           if (props.length > 0 && !selectedPropertyId) {
