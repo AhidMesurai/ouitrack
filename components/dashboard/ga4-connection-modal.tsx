@@ -31,13 +31,17 @@ function ConnectionModalContent({ open, onOpenChange, onSuccess }: GA4Connection
 
   useEffect(() => {
     if (open) {
-      fetchConnections()
       // Check if we just connected
       const urlParams = new URLSearchParams(window.location.search)
       if (urlParams.get('ga4_connected') === 'true') {
-        setStep('manage')
-        // Clean URL
+        // Clean URL first
         window.history.replaceState({}, '', '/dashboard')
+        // Then fetch connections
+        fetchConnections().then(() => {
+          setStep('manage')
+        })
+      } else {
+        fetchConnections()
       }
     }
   }, [open])
@@ -48,21 +52,25 @@ function ConnectionModalContent({ open, onOpenChange, onSuccess }: GA4Connection
       const response = await fetch('/api/ga4/properties')
       if (response.ok) {
         const data = await response.json()
-        const conns = data.connections || data.properties || []
+        const conns = data.connections || []
+        const props = data.properties || []
+        
         // Convert properties format to connections format if needed
-        if (data.properties && !data.connections) {
-          setConnectedProperties(data.properties.map((p: any) => ({
+        if (conns.length > 0) {
+          setConnectedProperties(conns.filter((c: any) => c.is_active))
+        } else if (props.length > 0) {
+          setConnectedProperties(props.map((p: any) => ({
             id: p.id,
             property_id: p.id,
             property_name: p.name,
             is_active: true,
           })))
         } else {
-          setConnectedProperties(conns.filter((c: any) => c.is_active))
+          setConnectedProperties([])
         }
         
         // If no connections, show connect step
-        if (connectedProperties.length === 0 && conns.length === 0) {
+        if (connectedProperties.length === 0 && conns.length === 0 && props.length === 0) {
           setStep('connect')
         } else {
           setStep('manage')
