@@ -55,7 +55,7 @@ export default function SelectPropertiesPage() {
         setSessionData(data.data)
         setProperties(data.data.properties || [])
         // Select all by default
-        const allSelected = new Set(data.data.properties.map((p: Property) => p.property))
+        const allSelected = new Set<string>(data.data.properties.map((p: Property) => p.property))
         setSelectedProperties(allSelected)
         setLoading(false)
       })
