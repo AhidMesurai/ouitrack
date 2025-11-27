@@ -22,7 +22,7 @@ export async function GET() {
     // Get user's GA4 connections - explicitly select columns to avoid issues
     const { data: connections, error } = await supabase
       .from('ga4_connections')
-      .select('id, property_id, property_name, is_active, created_at, connected_at, user_id')
+      .select('id, property_id, property_name, is_active, created_at, user_id')
       .eq('user_id', user.id)
       .eq('is_active', true)
       .order('created_at', { ascending: false })
@@ -44,7 +44,7 @@ export async function GET() {
     const properties = (connections || []).map(conn => ({
       id: conn.property_id,
       name: conn.property_name,
-      connectedAt: conn.created_at || conn.connected_at,
+      connectedAt: conn.created_at,
     }))
 
     console.log(`Returning ${properties.length} properties:`, properties.map(p => p.name))

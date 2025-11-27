@@ -68,6 +68,8 @@ export default function ReportViewerPage() {
         } else {
           const errorData = await response.json().catch(() => ({}))
           console.error('Error fetching properties:', response.status, errorData)
+          // Log full error details
+          console.error('Full error response:', JSON.stringify(errorData, null, 2))
         }
       } catch (error) {
         console.error('Error fetching properties:', error)
