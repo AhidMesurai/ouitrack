@@ -19,10 +19,10 @@ export async function GET() {
 
     console.log(`Fetching GA4 connections for user: ${user.id}`)
 
-    // Get user's GA4 connections
+    // Get user's GA4 connections - explicitly select columns to avoid issues
     const { data: connections, error } = await supabase
       .from('ga4_connections')
-      .select('*')
+      .select('id, property_id, property_name, is_active, created_at, connected_at, user_id')
       .eq('user_id', user.id)
       .eq('is_active', true)
       .order('created_at', { ascending: false })
