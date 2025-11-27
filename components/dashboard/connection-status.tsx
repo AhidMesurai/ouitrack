@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2 } from 'lucide-react'
+import { CheckCircle2, XCircle, AlertCircle, BarChart3, TrendingUp, Database, Zap, Mail, Instagram, Link2, Trash2, Power, PowerOff, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
@@ -15,6 +15,7 @@ interface GA4Connection {
   property_name: string
   is_active: boolean
   last_synced_at: string | null
+  google_account_email?: string | null
 }
 
 export function ConnectionStatus() {
@@ -40,38 +41,95 @@ export function ConnectionStatus() {
     { icon: Mail, name: 'Email', color: '#eab308', enabled: false },
   ]
 
-  useEffect(() => {
-    const fetchConnections = async () => {
-      try {
-        const response = await fetch('/api/ga4/properties')
-        if (response.ok) {
-          const data = await response.json()
-          // Handle both old format (array) and new format ({ properties: [...] })
-          if (Array.isArray(data)) {
-            setConnections(data)
-          } else if (data.properties && Array.isArray(data.properties)) {
-            // Convert properties format to connections format
-            const formattedConnections = data.properties.map((prop: any) => ({
-              id: prop.id,
-              property_id: prop.id,
-              property_name: prop.name,
-              is_active: true,
-              last_synced_at: prop.connectedAt || null,
-            }))
-            setConnections(formattedConnections)
-          } else {
-            setConnections([])
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching connections:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
 
+  const fetchConnections = async () => {
+    try {
+      const response = await fetch('/api/ga4/properties')
+      if (response.ok) {
+        const data = await response.json()
+        // Use full connections data if available, otherwise fall back to properties
+        if (data.connections && Array.isArray(data.connections)) {
+          setConnections(data.connections)
+        } else if (Array.isArray(data)) {
+          setConnections(data)
+        } else if (data.properties && Array.isArray(data.properties)) {
+          // Convert properties format to connections format
+          const formattedConnections = data.properties.map((prop: any) => ({
+            id: prop.id,
+            property_id: prop.id,
+            property_name: prop.name,
+            is_active: true,
+            last_synced_at: prop.connectedAt || null,
+          }))
+          setConnections(formattedConnections)
+        } else {
+          setConnections([])
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching connections:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
     fetchConnections()
   }, [])
+
+  const handleDelete = async (connectionId: string) => {
+    if (!confirm('Are you sure you want to delete this connection? This action cannot be undone.')) {
+      return
+    }
+
+    setDeletingId(connectionId)
+    try {
+      const response = await fetch(`/api/ga4/connections/${connectionId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        // Refresh connections
+        await fetchConnections()
+      } else {
+        const error = await response.json()
+        alert(`Failed to delete connection: ${error.error}`)
+      }
+    } catch (error: any) {
+      console.error('Error deleting connection:', error)
+      alert(`Failed to delete connection: ${error.message}`)
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
+  const handleToggleActive = async (connectionId: string, currentStatus: boolean) => {
+    setTogglingId(connectionId)
+    try {
+      const response = await fetch(`/api/ga4/connections/${connectionId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_active: !currentStatus }),
+      })
+
+      if (response.ok) {
+        // Refresh connections
+        await fetchConnections()
+      } else {
+        const error = await response.json()
+        alert(`Failed to update connection: ${error.error}`)
+      }
+    } catch (error: any) {
+      console.error('Error updating connection:', error)
+      alert(`Failed to update connection: ${error.message}`)
+    } finally {
+      setTogglingId(null)
+    }
+  }
 
   if (loading) {
     return (
@@ -353,80 +411,134 @@ export function ConnectionStatus() {
             </Link>
           </div>
 
-          {/* Connected Properties List */}
-          <div className="space-y-3">
-            {connections.map((connection, index) => (
-              <motion.div
-                key={connection.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -2 }}
-                className={cn(
-                  "p-4 rounded-lg border transition-all duration-300 cursor-pointer",
-                  theme === 'dark'
-                    ? 'bg-gray-800/30 border-gray-700/50 hover:bg-gray-800/50 hover:border-blue-500/30'
-                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-blue-300'
-                )}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className={cn(
-                      "p-2 rounded-lg",
-                      theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'
+          {/* Connected Properties List - Grouped by Google Account */}
+          <div className="space-y-4">
+            {(() => {
+              // Group connections by Google account email
+              const grouped = connections.reduce((acc, conn) => {
+                const email = conn.google_account_email || 'Unknown Account'
+                if (!acc[email]) {
+                  acc[email] = []
+                }
+                acc[email].push(conn)
+                return acc
+              }, {} as Record<string, typeof connections>)
+
+              return Object.entries(grouped).map(([email, conns], groupIndex) => (
+                <div key={email} className="space-y-2">
+                  {Object.keys(grouped).length > 1 && (
+                    <p className={cn(
+                      "text-xs font-medium mb-2",
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                     )}>
-                      <BarChart3 className={cn(
-                        "w-5 h-5",
-                        theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
-                      )} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={cn(
-                        "font-semibold text-sm mb-1 truncate",
-                        theme === 'dark' ? 'text-white' : 'text-gray-900'
-                      )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {connection.property_name}
-                      </p>
-                      <p className={cn(
-                        "text-xs mb-1",
-                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                      )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                        {connection.property_id}
-                      </p>
-                      {connection.last_synced_at && (
-                        <p className={cn(
-                          "text-xs",
-                          theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
-                        )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                          Last synced: {new Date(connection.last_synced_at).toLocaleString()}
-                        </p>
+                      {email}
+                    </p>
+                  )}
+                  {conns.map((connection, index) => (
+                    <motion.div
+                      key={connection.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: (groupIndex * 0.1) + (index * 0.05) }}
+                      whileHover={{ scale: 1.01, y: -1 }}
+                      className={cn(
+                        "p-4 rounded-lg border transition-all duration-300",
+                        theme === 'dark'
+                          ? connection.is_active
+                            ? 'bg-gray-800/30 border-gray-700/50 hover:bg-gray-800/50 hover:border-blue-500/30'
+                            : 'bg-gray-800/20 border-gray-700/30 opacity-60'
+                          : connection.is_active
+                            ? 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-blue-300'
+                            : 'bg-gray-50/50 border-gray-200 opacity-60'
                       )}
-                    </div>
-                    {connection.is_active ? (
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span className={cn(
-                          "text-xs font-medium",
-                          theme === 'dark' ? 'text-green-400' : 'text-green-600'
-                        )}>
-                          Active
-                        </span>
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 flex-1">
+                          <div className={cn(
+                            "p-2 rounded-lg",
+                            theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'
+                          )}>
+                            <BarChart3 className={cn(
+                              "w-5 h-5",
+                              theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
+                            )} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className={cn(
+                                "font-semibold text-sm truncate",
+                                theme === 'dark' ? 'text-white' : 'text-gray-900'
+                              )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                                {connection.property_name}
+                              </p>
+                              {connection.is_active ? (
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                              ) : (
+                                <div className="w-2 h-2 bg-gray-500 rounded-full" />
+                              )}
+                            </div>
+                            <p className={cn(
+                              "text-xs mb-1",
+                              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                              {connection.property_id}
+                            </p>
+                            {connection.last_synced_at && (
+                              <p className={cn(
+                                "text-xs",
+                                theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
+                              )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                                Last synced: {new Date(connection.last_synced_at).toLocaleString()}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleToggleActive(connection.id, connection.is_active)}
+                            disabled={togglingId === connection.id}
+                            className={cn(
+                              "h-8 w-8 p-0",
+                              theme === 'dark'
+                                ? 'text-gray-400 hover:text-white hover:bg-gray-800'
+                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                            )}
+                            title={connection.is_active ? 'Deactivate' : 'Activate'}
+                          >
+                            {togglingId === connection.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : connection.is_active ? (
+                              <PowerOff className="w-4 h-4" />
+                            ) : (
+                              <Power className="w-4 h-4" />
+                            )}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(connection.id)}
+                            disabled={deletingId === connection.id}
+                            className={cn(
+                              "h-8 w-8 p-0 text-red-500 hover:text-red-600",
+                              theme === 'dark' ? 'hover:bg-red-500/20' : 'hover:bg-red-50'
+                            )}
+                            title="Delete"
+                          >
+                            {deletingId === connection.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="w-4 h-4" />
+                            )}
+                          </Button>
+                        </div>
                       </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-gray-500 rounded-full" />
-                        <span className={cn(
-                          "text-xs font-medium",
-                          theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-                        )}>
-                          Inactive
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                    </motion.div>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
+              ))
+            })()}
           </div>
         </div>
       </div>
