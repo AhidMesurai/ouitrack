@@ -416,110 +416,67 @@ export function ConnectionStatus() {
           {/* Connected Properties List */}
           <div className="space-y-3">
             {connections.map((connection, index) => (
-                    <motion.div
-                      key={connection.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: (groupIndex * 0.1) + (index * 0.05) }}
-                      whileHover={{ scale: 1.01, y: -1 }}
-                      className={cn(
-                        "p-4 rounded-lg border transition-all duration-300",
-                        theme === 'dark'
-                          ? connection.is_active
-                            ? 'bg-gray-800/30 border-gray-700/50 hover:bg-gray-800/50 hover:border-blue-500/30'
-                            : 'bg-gray-800/20 border-gray-700/30 opacity-60'
-                          : connection.is_active
-                            ? 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-blue-300'
-                            : 'bg-gray-50/50 border-gray-200 opacity-60'
-                      )}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3 flex-1">
-                          <div className={cn(
-                            "p-2 rounded-lg",
-                            theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'
-                          )}>
-                            <BarChart3 className={cn(
-                              "w-5 h-5",
-                              theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
-                            )} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <p className={cn(
-                                "font-semibold text-sm truncate",
-                                theme === 'dark' ? 'text-white' : 'text-gray-900'
-                              )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                                {connection.property_name}
-                              </p>
-                              {connection.is_active ? (
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                              ) : (
-                                <div className="w-2 h-2 bg-gray-500 rounded-full" />
-                              )}
-                            </div>
-                            <p className={cn(
-                              "text-xs mb-1",
-                              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                            )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                              {connection.property_id}
-                            </p>
-                            {connection.last_synced_at && (
-                              <p className={cn(
-                                "text-xs",
-                                theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
-                              )} style={{ fontFamily: "'Inter', sans-serif" }}>
-                                Last synced: {new Date(connection.last_synced_at).toLocaleString()}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleToggleActive(connection.id, connection.is_active)}
-                            disabled={togglingId === connection.id}
-                            className={cn(
-                              "h-8 w-8 p-0",
-                              theme === 'dark'
-                                ? 'text-gray-400 hover:text-white hover:bg-gray-800'
-                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                            )}
-                            title={connection.is_active ? 'Deactivate' : 'Activate'}
-                          >
-                            {togglingId === connection.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : connection.is_active ? (
-                              <PowerOff className="w-4 h-4" />
-                            ) : (
-                              <Power className="w-4 h-4" />
-                            )}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDelete(connection.id)}
-                            disabled={deletingId === connection.id}
-                            className={cn(
-                              "h-8 w-8 p-0 text-red-500 hover:text-red-600",
-                              theme === 'dark' ? 'hover:bg-red-500/20' : 'hover:bg-red-50'
-                            )}
-                            title="Delete"
-                          >
-                            {deletingId === connection.id ? (
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                              <Trash2 className="w-4 h-4" />
-                            )}
-                          </Button>
-                        </div>
+              <motion.div
+                key={connection.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                whileHover={{ scale: 1.01, y: -1 }}
+                className={cn(
+                  "p-4 rounded-lg border transition-all duration-300",
+                  theme === 'dark'
+                    ? connection.is_active
+                      ? 'bg-gray-800/30 border-gray-700/50 hover:bg-gray-800/50 hover:border-blue-500/30'
+                      : 'bg-gray-800/20 border-gray-700/30 opacity-60'
+                    : connection.is_active
+                      ? 'bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-blue-300'
+                      : 'bg-gray-50/50 border-gray-200 opacity-60'
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className={cn(
+                      "p-2 rounded-lg",
+                      theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'
+                    )}>
+                      <BarChart3 className={cn(
+                        "w-5 h-5",
+                        theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
+                      )} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className={cn(
+                          "font-semibold text-sm truncate",
+                          theme === 'dark' ? 'text-white' : 'text-gray-900'
+                        )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                          {connection.property_name}
+                        </p>
+                        {connection.is_active ? (
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        ) : (
+                          <div className="w-2 h-2 bg-gray-500 rounded-full" />
+                        )}
                       </div>
-                    </motion.div>
-                  ))}
+                      <p className={cn(
+                        "text-xs mb-1",
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                      )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                        {connection.property_id}
+                      </p>
+                      {connection.last_synced_at && (
+                        <p className={cn(
+                          "text-xs",
+                          theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
+                        )} style={{ fontFamily: "'Inter', sans-serif" }}>
+                          Last synced: {new Date(connection.last_synced_at).toLocaleString()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              ))
-            })()}
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
