@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useTheme } from '@/contexts/theme-context'
 import { cn } from '@/lib/utils'
 import { BarChart3, CheckCircle2, Loader2 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
@@ -18,7 +18,7 @@ interface Property {
   displayName: string
 }
 
-export default function SelectPropertiesPage() {
+function SelectPropertiesContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const sessionKey = searchParams.get('session')
@@ -312,6 +312,22 @@ export default function SelectPropertiesPage() {
             </Button>
           </div>
         </div>
+      </DashboardLayout>
+    </ProtectedRoute>
+  )
+}
+
+export default function SelectPropertiesPage() {
+  return (
+    <ProtectedRoute>
+      <DashboardLayout>
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[400px]">
+            <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+          </div>
+        }>
+          <SelectPropertiesContent />
+        </Suspense>
       </DashboardLayout>
     </ProtectedRoute>
   )
